@@ -84,3 +84,40 @@ document.querySelector("#search-button").addEventListener("click", async () => {
         `;
     }
 });
+const app = Vue.createApp({
+    data() {
+        return {
+            muscle: '', // The muscle group entered by the user
+            exercises: [], // List of exercises fetched from the API
+            loading: false, // Indicates if the API request is in progress
+            error: null, // Holds any error messages
+        };
+    },
+    methods: {
+        async searchExercises() {
+            this.loading = true;
+            this.error = null; // Reset any previous errors
+            this.exercises = []; // Clear previous results
+
+            const apiUrl = `https://api.api-ninjas.com/v1/exercises?muscle=${this.muscle}`;
+            const apiKey = "+dIZRhCnq8grOuytY/aTJg==6YnDIrNneZLxp1bw";
+
+            try {
+                const response = await axios.get(apiUrl, {
+                    headers: {
+                        "X-Api-Key": apiKey,
+                    },
+                });
+                this.exercises = response.data; // Populate exercises with the API response
+            } catch (error) {
+                console.error("Error fetching exercises:", error);
+                this.error = "Error loading exercises. Please try again later.";
+            } finally {
+                this.loading = false;
+            }
+        },
+    },
+});
+
+app.mount('#app'); // Mount the Vue app to the #app div
+

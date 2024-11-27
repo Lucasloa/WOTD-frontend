@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout of the Day</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
+    <style>
+        /* Add background image to the header */
+        header { 
+            background-image: url('assets/homegym.jpg'); /* Change this path to the correct one if needed */
+            background-size: cover; /* Makes sure the image covers the header */
+            background-position: center; /* Centers the image */
+            background-attachment: fixed; /* Keeps the image fixed when scrolling */
+            height: 100vh; /* Make header take full viewport height */
+            display: block; /* Default block display, removes flex centering */
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section with Background Image -->
+    <header class="uk-position-relative uk-light">
+        <!-- Background image set through CSS -->
+        <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
+        <nav class="uk-navbar-container uk-navbar-transparent">
+            <div class="uk-container">
+                <div uk-navbar>
+                    <!-- Left Navigation and Logo -->
+                    <div class="uk-navbar-left">
+                        <a href="index.html" class="uk-navbar-item uk-logo">
+                            <img src="assets/WorkOutToDoLogo.png" alt="Workout of the Day Logo" width="50" height="auto">
+                        </a>
+                        <ul class="uk-navbar-nav">
+                            <li class="uk-active"><a href="index.html">Home</a></li>
+                            <li><a href="exercises.html">Workouts</a></li>
+                            <li>
+                                <a href="#">More</a>
+                                <div class="uk-navbar-dropdown">
+                                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                                        <li><a href="#">Blog</a></li>
+                                        <li><a href="#">About</a></li>
+                                        <li class="uk-nav-divider"></li>
+                                        <li><a href="#">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+    
+                    <!-- Right Navigation -->
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav">
+                            <li><a href="#">Login</a></li>
+                            <li><a href="#">Sign Up</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+</body>
+</html>

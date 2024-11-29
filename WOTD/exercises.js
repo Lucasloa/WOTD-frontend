@@ -1,27 +1,40 @@
+
+
+const exerciseImages = {
+    "Pushups": "./assets/pushup.jpg",
+    "Dumbbell Bench Press": "./assets/dumbbellBenchPress.jpg",
+    "Close-grip bench press": "./assets/closeGripBench.jpg",
+    "Dumbbell Flyes": "./assets/dumbbellFlyes.jpg",
+    "Incline dumbbell bench press": "./assets/inclineDumbbellbenchPress.png",
+    "Low-cable cross-over" : "./assets/lowCableCrossOver.png",
+    "Barbell Bench Press - Medium Grip" : "./assets/mediumGrip.jpg",
+    "Chest dip" : "./assets/chestDip.jpg",
+    "Decline Dumbbell Flyes" : "./assets/decline.jpg",
+    "Bodyweight Flyes" : "./assets/bodyweightFlyes.png",
+
+    // Add more exercises and their respective image paths
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
     const apiUrl = "https://api.api-ninjas.com/v1/exercises"; // Replace with your API endpoint
     const apiKey = "+dIZRhCnq8grOuytY/aTJg==6YnDIrNneZLxp1bw"; // Replace with your actual API key
-
-    
     const container = document.querySelector(".uk-grid-small");
 
     try {
-        // Use Axios to fetch the exercises
+        // Fetch the exercises from the API
         const response = await axios.get(apiUrl, {
-            headers: {
-                "X-Api-Key": apiKey
-            }
+            headers: { "X-Api-Key": apiKey }
         });
-
-        // Extract the data from the response
         const exercises = response.data;
 
-        // Dynamically create exercise cards
+        // Dynamically generate exercise cards
         exercises.forEach((exercise) => {
+            // Use the mapped image URL or a placeholder if no match
+            const imageUrl = exerciseImages[exercise.name] || "https://via.placeholder.com/150";
             const card = `
                 <div>
                     <div class="uk-card uk-card-default uk-card-body uk-text-center">
-                        <img src="https://via.placeholder.com/150" alt="${exercise.name}" class="uk-border-circle">
+                        <img src="${imageUrl}" alt="${exercise.name}" class="uk-border-circle">
                         <h3 class="uk-card-title">${exercise.name}</h3>
                         <p>Muscle: ${exercise.muscle}</p>
                         <p>Type: ${exercise.type}</p>
@@ -42,27 +55,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
     }
 });
+
+// Search functionality for exercises by muscle group
 document.querySelector("#search-button").addEventListener("click", async () => {
-    const muscle = document.querySelector("#search-input").value.trim(); // Get user input
-    const apiUrl = `https://api.api-ninjas.com/v1/exercises?muscle=${muscle}`; // Create API URL
+    const muscle = document.querySelector("#search-input").value.trim();
+    const apiUrl = `https://api.api-ninjas.com/v1/exercises?muscle=${muscle}`;
 
     try {
         const response = await axios.get(apiUrl, {
-            headers: {
-                "X-Api-Key": "+dIZRhCnq8grOuytY/aTJg==6YnDIrNneZLxp1bw" // Replace with your API key
-            }
+            headers: { "X-Api-Key": "+dIZRhCnq8grOuytY/aTJg==6YnDIrNneZLxp1bw" }
         });
-
         const exercises = response.data;
-        const container = document.querySelector(".uk-grid-small"); // Select container
+        const container = document.querySelector(".uk-grid-small");
         container.innerHTML = ""; // Clear previous results
 
-        // Generate exercise cards
         exercises.forEach((exercise) => {
+            const imageUrl = exerciseImages[exercise.name] || "https://via.placeholder.com/150";
             const card = `
                 <div>
                     <div class="uk-card uk-card-default uk-card-body uk-text-center">
-                        <img src="https://via.placeholder.com/150" alt="${exercise.name}" class="uk-border-circle">
+                        <img src="${imageUrl}" alt="${exercise.name}" class="uk-border-circle">
                         <h3 class="uk-card-title">${exercise.name}</h3>
                         <p>Muscle: ${exercise.muscle}</p>
                         <p>Type: ${exercise.type}</p>
@@ -84,6 +96,7 @@ document.querySelector("#search-button").addEventListener("click", async () => {
         `;
     }
 });
+
 const app = Vue.createApp({
     data() {
         return {

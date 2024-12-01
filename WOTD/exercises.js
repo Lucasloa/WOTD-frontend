@@ -1,16 +1,16 @@
 
 
 const exerciseImages = {
-    "Pushups": "./assets/pushup.jpg",
-    "Dumbbell Bench Press": "./assets/dumbbellBenchPress.jpg",
-    "Close-grip bench press": "./assets/closeGripBench.jpg",
-    "Dumbbell Flyes": "./assets/dumbbellFlyes.jpg",
-    "Incline dumbbell bench press": "./assets/inclineDumbbellbenchPress.png",
-    "Low-cable cross-over" : "./assets/lowCableCrossOver.png",
-    "Barbell Bench Press - Medium Grip" : "./assets/mediumGrip.jpg",
-    "Chest dip" : "./assets/chestDip.jpg",
-    "Decline Dumbbell Flyes" : "./assets/decline.jpg",
-    "Bodyweight Flyes" : "./assets/bodyweightFlyes.png",
+    "Pushups": "./assets/pushup.gif",
+    "Dumbbell Bench Press": "./assets/dumbbellBenchPress.gif",
+    "Close-grip bench press": "./assets/closeGripBench.gif",
+    "Dumbbell Flyes": "./assets/dumbbellFlyes.gif",
+    "Incline dumbbell bench press": "./assets/inclineDumbbellbenchPress.gif",
+    "Low-cable cross-over" : "./assets/lowCableFly.gif",
+    "Barbell Bench Press - Medium Grip" : "./assets/barbellBenchPress.gif",
+    "Chest dip" : "./assets/chestDip.gif",
+    "Decline Dumbbell Flyes" : "./assets/declineFlyes.gif",
+    "Bodyweight Flyes" : "./assets/bodyweightFlyes.gif",
 
     // Add more exercises and their respective image paths
 };

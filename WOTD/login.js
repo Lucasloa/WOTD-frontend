@@ -29,7 +29,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const data = await response.json();
         console.log('User Data:', data);
 
-        localStorage.setItem('loggedInUser', JSON.stringify(data)); // Store user info
+        // Store user info and admin status in localStorage
+        localStorage.setItem('loggedInUser', JSON.stringify(data));
+
+        // Redirect to index.html after login
         alert(`Welcome, ${data.fName}!`);
         window.location.href = 'index.html'; // Redirect to index
     } catch (error) {

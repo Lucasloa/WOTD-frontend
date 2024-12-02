@@ -62,12 +62,22 @@
         const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     
         if (loggedInUser) {
-            // Update navbar to display user info
             const navbarRight = document.querySelector('.uk-navbar-right');
-            navbarRight.innerHTML = `
+    
+            // Update navbar with logout and admin dashboard button (if admin)
+            let navItems = `
                 <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong>!</li>
                 <li><a href="#" id="logout">Logout</a></li>
             `;
+    
+            if (loggedInUser.isAdmin) {
+                navItems = `
+                    ${navItems}
+                    <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                `;
+            }
+    
+            navbarRight.innerHTML = navItems;
     
             // Add logout functionality
             document.getElementById('logout').addEventListener('click', () => {
@@ -77,6 +87,7 @@
             });
         }
     </script>
+    
     
 </body>
 </html>

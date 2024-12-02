@@ -11,26 +11,22 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <style>
-        /* Add background image to the header */
         header { 
-            background-image: url('assets/homegym.jpg'); /* Change this path to the correct one if needed */
-            background-size: cover; /* Makes sure the image covers the header */
-            background-position: center; /* Centers the image */
-            background-attachment: fixed; /* Keeps the image fixed when scrolling */
-            height: 100vh; /* Make header take full viewport height */
-            display: block; /* Default block display, removes flex centering */
+            background-image: url('assets/homegym.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section with Background Image -->
     <header class="uk-position-relative uk-light">
-        <!-- Background image set through CSS -->
         <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
         <nav class="uk-navbar-container uk-navbar-transparent">
             <div class="uk-container">
                 <div uk-navbar>
-                    <!-- Left Navigation and Logo -->
                     <div class="uk-navbar-left">
                         <a href="index.html" class="uk-navbar-item uk-logo">
                             <img src="assets/WorkOutToDoLogo.png" alt="Workout of the Day Logo" width="50" height="auto">
@@ -42,7 +38,6 @@
                                 <a href="#">More</a>
                                 <div class="uk-navbar-dropdown">
                                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                                        <li><a href="#">Blog</a></li>
                                         <li><a href="#">About</a></li>
                                         <li class="uk-nav-divider"></li>
                                         <li><a href="#">Contact</a></li>
@@ -51,11 +46,9 @@
                             </li>
                         </ul>
                     </div>
-    
-                    <!-- Right Navigation -->
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
-                            <li><a href="#">Login</a></li>
+                            <li><a href="login.html">Login</a></li>
                             <li><a href="#">Sign Up</a></li>
                         </ul>
                     </div>
@@ -63,5 +56,27 @@
             </div>
         </nav>
     </header>
+
+    <script>
+        // Check for logged-in user
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    
+        if (loggedInUser) {
+            // Update navbar to display user info
+            const navbarRight = document.querySelector('.uk-navbar-right');
+            navbarRight.innerHTML = `
+                <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong>!</li>
+                <li><a href="#" id="logout">Logout</a></li>
+            `;
+    
+            // Add logout functionality
+            document.getElementById('logout').addEventListener('click', () => {
+                localStorage.removeItem('loggedInUser'); // Clear session
+                alert('You have logged out.');
+                window.location.reload(); // Reload page
+            });
+        }
+    </script>
+    
 </body>
 </html>

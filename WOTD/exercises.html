@@ -44,7 +44,7 @@
                     <!-- Right Navigation -->
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
-                            <li><a href="#">Login</a></li>
+                            <li><a href="login.html">Login</a></li>
                             <li><a href="#">Sign Up</a></li>
                         </ul>
                     </div>
@@ -96,5 +96,37 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Include the Vue.js script -->
     <script src="./exercises.js"></script>
+
+    <script>
+        // Check for logged-in user
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    
+        if (loggedInUser) {
+            const navbarRight = document.querySelector('.uk-navbar-right');
+    
+            // Update navbar with logout and admin dashboard button (if admin)
+            let navItems = `
+                <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong>!</li>
+                <li><a href="#" id="logout">Logout</a></li>
+            `;
+    
+            if (loggedInUser.isAdmin) {
+                navItems = `
+                    ${navItems}
+                    <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                `;
+            }
+    
+            navbarRight.innerHTML = navItems;
+    
+            // Add logout functionality
+            document.getElementById('logout').addEventListener('click', () => {
+                localStorage.removeItem('loggedInUser'); // Clear session
+                alert('You have logged out.');
+                window.location.reload(); // Reload page
+            });
+        }
+    </script>
+    
 </body>
 </html>

@@ -12,7 +12,6 @@ const exerciseImages = {
     "Decline Dumbbell Flyes" : "./assets/declineFlyes.gif",
     "Bodyweight Flyes" : "./assets/bodyweightFlyes.gif",
 
-    // Add more exercises and their respective image paths
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -27,7 +26,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         const exercises = response.data;
 
-        // Dynamically generate exercise cards
         exercises.forEach((exercise) => {
             // Use the mapped image URL or a placeholder if no match
             const imageUrl = exerciseImages[exercise.name] || "https://via.placeholder.com/150";

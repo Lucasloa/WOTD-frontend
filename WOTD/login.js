@@ -33,7 +33,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         localStorage.setItem('loggedInUser', JSON.stringify(data));
 
         // Redirect to index.html after login
-        alert(`Welcome, ${data.fName}!`);
+        
         window.location.href = 'index.html'; // Redirect to index
     } catch (error) {
         console.error('Fetch Error:', error);

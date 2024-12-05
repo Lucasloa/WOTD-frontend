@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Calendar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body class="uk-background-muted uk-padding-large">
+
+    <div id="calendarApp">
+        <!-- Calendar Days -->
+        <div class="uk-grid-small uk-child-width-1-4@m" uk-grid>
+            <div v-for="(day, index) in days" :key="day.date" class="calendar-day" @click="selectDay(index)">
+                <div class="uk-card uk-card-default uk-card-body">
+                    <h3 class="uk-card-title">{{ day.date }}</h3>
+                    <ul>
+                        <li v-for="exercise in day.exercises" :key="exercise.id">{{ exercise.name }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Modal for Adding Exercises -->
+        <div id="exercise-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Select an Exercise</h2>
+    
+                <!-- Show Loading Message -->
+                <div v-if="isLoading" class="uk-text-center">
+                    <p>Loading exercises...</p>
+                </div>
+    
+                <!-- Exercise List -->
+                <ul v-else>
+                    <li v-for="exercise in exercises" :key="exercise.id" @click="addExerciseToDay(exercise)">
+                        <button class="uk-button uk-button-default uk-margin-small-bottom">{{ exercise.name }}</button>
+                    </li>
+                </ul>
+                <button class="uk-button uk-button-danger uk-modal-close">Close</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="./calendar.js"></script>
+</body>
+</html>

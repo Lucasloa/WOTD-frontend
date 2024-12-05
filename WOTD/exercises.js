@@ -1,5 +1,3 @@
-
-
 const exerciseImages = {
     "Pushups": "./assets/pushup.gif",
     "Dumbbell Bench Press": "./assets/dumbbellBenchPress.gif",
@@ -11,7 +9,6 @@ const exerciseImages = {
     "Chest dip" : "./assets/chestDip.gif",
     "Decline Dumbbell Flyes" : "./assets/declineFlyes.gif",
     "Bodyweight Flyes" : "./assets/bodyweightFlyes.gif",
-
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -26,8 +23,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         const exercises = response.data;
 
+        // Dynamically generate exercise cards
         exercises.forEach((exercise) => {
-            // Use the mapped image URL or a placeholder if no match
             const imageUrl = exerciseImages[exercise.name] || "https://via.placeholder.com/150";
             const card = `
                 <div>
@@ -37,13 +34,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <p>Muscle: ${exercise.muscle}</p>
                         <p>Type: ${exercise.type}</p>
                         <p>Difficulty: ${exercise.difficulty}</p>
-                        <button class="uk-button uk-button-primary">Add to Calendar</button>
+                        <button class="uk-button uk-button-primary add-to-calendar">Add to Calendar</button>
                     </div>
                 </div>
             `;
             container.innerHTML += card;
         });
 
+        // Reattach "Add to Calendar" event listeners after rendering
+        attachAddToCalendarEventListeners();
     } catch (error) {
         console.error("Error fetching exercises:", error);
         container.innerHTML = `
@@ -77,13 +76,15 @@ document.querySelector("#search-button").addEventListener("click", async () => {
                         <p>Muscle: ${exercise.muscle}</p>
                         <p>Type: ${exercise.type}</p>
                         <p>Difficulty: ${exercise.difficulty}</p>
-                        <button class="uk-button uk-button-primary">Add to Calendar</button>
+                        <button class="uk-button uk-button-primary add-to-calendar">Add to Calendar</button>
                     </div>
                 </div>
             `;
             container.innerHTML += card;
         });
 
+        // Reattach "Add to Calendar" event listeners after search results are displayed
+        attachAddToCalendarEventListeners();
     } catch (error) {
         console.error("Error fetching exercises:", error);
         const container = document.querySelector(".uk-grid-small");
@@ -94,57 +95,14 @@ document.querySelector("#search-button").addEventListener("click", async () => {
         `;
     }
 });
-const app = Vue.createApp({
-    data() {
-        return {
-            exercises: [], // Array of exercises fetched from API or static data
-        };
-    },
-    methods: {
-        searchExercises() {
-            // Fetch exercises from an API or filter them dynamically
-            console.log("Search functionality is not implemented yet.");
-        },
-        addToCalendar(exercise) {
-            // Retrieve existing calendar from localStorage
-            let calendar = JSON.parse(localStorage.getItem('calendar')) || [];
 
-            // Check if the exercise is already in the calendar
-            const isAlreadyAdded = calendar.some(item => item.id === exercise.id);
-            if (isAlreadyAdded) {
-                alert('This exercise is already in your calendar!');
-                return;
-            }
-
-            // Add the selected exercise to the calendar
-            calendar.push(exercise);
-
-            // Save the updated calendar back to localStorage
-            localStorage.setItem('calendar', JSON.stringify(calendar));
-
-            alert(`${exercise.name} has been added to your calendar!`);
-        }
-    },
-    mounted() {
-        // Example: Load exercises (could be replaced with an API call)
-        this.exercises = [
-            {
-                id: 1,
-                name: "Push-Up",
-                muscle: "Chest",
-                type: "Bodyweight",
-                difficulty: "Beginner",
-            },
-            {
-                id: 2,
-                name: "Pull-Up",
-                muscle: "Back",
-                type: "Bodyweight",
-                difficulty: "Intermediate",
-            },
-            // Add more example exercises
-        ];
-    }
-});
-
-app.mount('#app');
+// Function to attach the "Add to Calendar" event listeners
+function attachAddToCalendarEventListeners() {
+    const buttons = document.querySelectorAll(".add-to-calendar");
+    buttons.forEach(button => {
+        button.addEventListener("click", (e) => {
+            const exerciseName = e.target.closest('.uk-card').querySelector('.uk-card-title').innerText;
+            alert(`${exerciseName} has been added to your calendar!`);
+        });
+    });
+}

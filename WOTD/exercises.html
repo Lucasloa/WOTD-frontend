@@ -14,8 +14,8 @@
 </head>
 <body>
     <!-- Hero Section with Background Image -->
-    <header class="uk-position-relative uk-light">
-        <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
+    <header class="uk-position-relative uk-light" style="margin-bottom: 250px;">
+        <div class="uk-overlay uk-overlay-primary uk-position-cover"></div> 
         <nav class="uk-navbar-container uk-navbar-transparent">
             <div class="uk-container">
                 <div uk-navbar>
@@ -52,11 +52,11 @@
             </div>
         </nav>
     </header>
-
-    <div class="uk-position-center uk-text-center">
+    <div class="uk-position-center uk-text-center" style="margin-top: -150px;">
         <h1 class="uk-heading-large uk-text-bold">Explore Exercises</h1>
         <p class="uk-text-lead">Discover workouts tailored for every muscle group.</p>
     </div>
+    
 
     <!-- Search Section -->
     <div class="uk-section uk-section-small uk-background-muted">
@@ -73,34 +73,24 @@
         </div>
     </div>
 
-    <!-- Exercise Grid Section -->
-    <div id="app" class="uk-container uk-margin-large-top">
-          <div class="uk-grid-small uk-child-width-1-3@m uk-flex-center" uk-grid>
-
-            <!-- Exercise cards will be dynamically injected here by Vue -->
-
-             <div v-for="exercise in exercises" :key="exercise.id">
-
-                  <div class="uk-card uk-card-default uk-card-body uk-text-center">
-
-                       <img src="https://via.placeholder.com/150" alt="Exercise Image" class="uk-border-circle">
-
-                        <h3 class="uk-card-title">{{ exercise.name }}</h3>
-
-                         <p>Muscle: {{ exercise.muscle }}</p>
-
-                          <p>Type: {{ exercise.type }}</p>
-
-                           <p>Difficulty: {{ exercise.difficulty }}</p>
-
-                           <a @click="addToCalendar(exercise)" class="uk-button uk-button-primary" href="calender.html">Add to Calendar</a>
-
-
-                    </div>
-                </div>
+   <!-- Exercise Grid Section -->
+<div id="app" class="uk-container uk-margin-large-top">
+    <div class="uk-grid-small uk-child-width-1-3@m uk-flex-center" uk-grid>
+        <!-- Exercise cards will be dynamically injected here by Vue -->
+        <div v-for="exercise in exercises" :key="exercise.id">
+            <div class="uk-card uk-card-default uk-card-body uk-text-center">
+                <img src="https://via.placeholder.com/150" alt="Exercise Image" class="uk-border-circle">
+                <h3 class="uk-card-title">{{ exercise.name }}</h3>
+                <p>Muscle: {{ exercise.muscle }}</p>
+                <p>Type: {{ exercise.type }}</p>
+                <p>Difficulty: {{ exercise.difficulty }}</p>
+                <a @click="addToCalendar(exercise)" class="uk-button uk-button-primary" href="calender.html">Add to Calendar</a>
             </div>
         </div>
     </div>
+    
+</div>
+
 
     
     <!-- Include Axios -->

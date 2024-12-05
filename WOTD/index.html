@@ -11,86 +11,16 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
-    <style>
-        header { 
-            background-image: url('assets/homegym.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            height: 100vh;
-            display: block;
-        }
-
-        #wotd-section {
-            position: absolute;
-            top: 120px; /* Ensure it appears below the navbar */
-            left: 5%;
-            display: flex;
-            gap: 20px; /* Space between the two boxes */
-        }
-        #wotd-box {
-            width: 250px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            text-align: center;
-        }
-        #wotd-box img {
-            max-width: 100%;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        #wotd-box h3 {
-            font-size: 18px;
-            margin: 10px 0 5px;
-        }
-        #wotd-box p {
-            font-size: 14px;
-            margin: 5px 0;
-            color: #555;
-        }
-
-        #wotd-title {
-            font-size: 22px;
-            text-align: center;
-            margin-bottom: 10px;
-            color: #fff;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Quote of the Day Section */
-        #qotd-section {
-            position: absolute;
-            top: 50px; /* Position the quote slightly below the navbar */
-            left: 50%;
-            transform: translateX(-50%); /* Center the quote */
-            text-align: center;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
-        }
-
-        #qotd-title {
-            font-size: 28px;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-        }
-
-        #QuoteApp h3 {
-            font-size: 24px;
-            font-style: italic;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        #QuoteApp p {
-            font-size: 18px;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-    </style>
+<style>
+    header { 
+    background-image: url('assets/homegym.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    display: block;
+}
+</style>
 </head>
 <body>
     <header class="uk-position-relative uk-light">
@@ -136,6 +66,10 @@
                         <img :src="workout.img" alt="Exercise Image">
                         <h3>{{ workout.name }}</h3>
                         <p>{{ workout.muscle }}</p>
+                        <!-- Start or Accept Button -->
+                        <button id="start-btn" onclick="completeWorkout()">Start</button>
+                        <!-- Completed Message -->
+                        <p id="completed-message">You have completed today's workout! Great job!</p>
                     </div>
                 </div>
             </div>

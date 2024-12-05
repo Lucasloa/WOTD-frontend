@@ -64,5 +64,9 @@ const app = Vue.createApp({
         }
     }
 });
-
+function completeWorkout() {
+    // Hide the "Start" button and show the completed message
+    document.getElementById('start-btn').style.display = 'none';
+    document.getElementById('completed-message').style.display = 'block';
+}
 app.mount('#DailyApp');

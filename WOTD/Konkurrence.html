@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercises</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+          <h1>Competitions</h1>
+          <div v-for="competition in competitions" :key="competition.id" class="competition">
+            <div>
+              <h3>{{ competition.name }}</h3>
+              <p>{{ competition.description }}</p>
+            </div>
+            <button @click="signUp(competition.id)" :disabled="competition.signedUp">
+              {{ competition.signedUp ? 'Signed Up' : 'Sign Up' }}
+            </button>
+          </div>
+        </div>
+      
+        <script>
+          const { createApp } = Vue;
+      
+          createApp({
+            data() {
+              return {
+                competitions: [
+                  { id: 1, name: 'Math Contest', description: 'Test your math skills!', signedUp: false },
+                  { id: 2, name: 'Science Fair', description: 'Show off your science project!', signedUp: false },
+                  { id: 3, name: 'Art Competition', description: 'Express your creativity!', signedUp: false },
+                ],
+              };
+            },
+            methods: {
+              signUp(competitionId) {
+                const competition = this.competitions.find(c => c.id === competitionId);
+                if (competition && !competition.signedUp) {
+                  competition.signedUp = true;
+                  alert(`You have signed up for ${competition.name}!`);
+                }
+              },
+            },
+          }).mount('#app');
+        </script>
+    </body>
+</html>

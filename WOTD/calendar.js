@@ -6,9 +6,18 @@ const calendarApp = Vue.createApp({
             selectedDayIndex: null, // Index of the day to add exercises
             isLoading: false,    // Loading state for the API
             isError: false,      // Error state for API call
+            deleteMode: false,
         };
     },
     methods: {
+        toggleDeleteMode() {
+            this.deleteMode = !this.deleteMode;
+        },
+        deleteExerciseFromDay(dayIndex, exerciseIndex) {
+            this.days[dayIndex].exercises.splice(exerciseIndex, 1); // Remove exercise
+            this.saveCalendar(); // Save updated state
+            UIkit.notification("Exercise removed successfully!", { status: 'success' });
+        },
         generateDays() {
             const today = new Date();
             const year = today.getFullYear();
@@ -31,19 +40,34 @@ const calendarApp = Vue.createApp({
         },
         addExerciseToDay(exercise) {
             if (this.selectedDayIndex === null) return;
-
+        
             const selectedDay = this.days[this.selectedDayIndex];
-
-            // Avoid duplicates
-            const exists = selectedDay.exercises.some(e => e.id === exercise.id);
+        
+            // Generate a unique identifier if id is not reliable
+            const exerciseIdentifier = exercise.id || exercise.name;
+        
+            // Avoid duplicates by checking the unique identifier
+            const exists = selectedDay.exercises.some(e => (e.id || e.name) === exerciseIdentifier);
+        
             if (!exists) {
-                selectedDay.exercises.push(exercise);
+                selectedDay.exercises.push({ ...exercise, id: exercise.id || exercise.name });
                 this.saveCalendar(); // Save updated state
                 UIkit.modal('#exercise-modal').hide();
                 UIkit.notification(`${exercise.name} added to ${selectedDay.date}!`, { status: 'success' });
             } else {
                 UIkit.notification('Exercise already exists for this day!', { status: 'warning' });
             }
+        },
+            deleteExerciseFromDay(dayIndex, exerciseIndex) {
+                // Confirm deletion with the user
+                UIkit.modal.confirm("Are you sure you want to delete this exercise?").then(() => {
+                    this.days[dayIndex].exercises.splice(exerciseIndex, 1); // Remove the exercise
+                    this.saveCalendar(); // Save the updated calendar to localStorage
+                    UIkit.notification("Exercise removed successfully!", { status: 'success' });
+                }).catch(() => {
+                    // If user cancels, no action is taken
+                    UIkit.notification("Exercise deletion canceled.", { status: 'warning' });
+                });
         },
         saveCalendar() {
             localStorage.setItem('calendarDays', JSON.stringify(this.days));

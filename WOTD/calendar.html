@@ -8,44 +8,162 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        /* Highlight calendar in delete mode */
+        .calendar-day.delete-mode {
+            border: 2px solid red;
+        }
 
+        /* Additional padding for exercises with delete buttons */
+        .exercise-item {
+            position: relative;
+            padding-right: 2rem;
+        }
+
+        /* Position delete button for better UX */
+        .delete-btn {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+    </style>
 </head>
-<body class="uk-background-muted uk-padding-large">
+<body>
+    <header class="uk-position-relative uk-light">
+        <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
+        <nav class="uk-navbar-container uk-navbar-transparent">
+            <div class="uk-container">
+                <div uk-navbar>
+                    <!-- Left Navigation and Logo -->
+                    <div class="uk-navbar-left">
+                        <a href="index.html" class="uk-navbar-item uk-logo">
+                            <img src="assets/WorkOutToDoLogo.png" alt="Workout of the Day Logo" width="50" height="auto">
+                        </a>
+                        <ul class="uk-navbar-nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li class="uk-active"><a href="exercises.html">Workouts</a></li>
+                            <li>
+                                <a href="#">More</a>
+                                <div class="uk-navbar-dropdown">
+                                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                                        <li><a href="#">Blog</a></li>
+                                        <li><a href="#">About</a></li>
+                                        <li class="uk-nav-divider"></li>
+                                        <li><a href="#">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
+                    <!-- Right Navigation -->
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav">
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="#">Sign Up</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <script>
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+        if (loggedInUser) {
+            const navbarRight = document.querySelector('.uk-navbar-right');
+
+            let navItems = `
+                <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong></li>
+                <li><a id="logout" href="index.html">Logout</a></li>
+                <li><a id="Calendar" href="calendar.html">Calendar</a></li>
+            `;
+
+            if (loggedInUser.isAdmin) {
+                navItems = `
+                    ${navItems}
+                    <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                `;
+            }
+
+            navbarRight.innerHTML = navItems;
+
+            // Attach logout functionality
+            document.getElementById('logout').addEventListener('click', () => {
+                localStorage.removeItem('loggedInUser');
+                window.location.reload();
+            });
+        }
+    </script>
     <div id="calendarApp">
+        <!-- Toggle Delete Mode Button -->
+        <div class="uk-container uk-margin-top uk-flex uk-flex-right">
+            <button 
+                class="uk-button uk-button-danger uk-margin-bottom" 
+                @click="toggleDeleteMode"
+            >
+                {{ deleteMode ? 'Toggle delete' : 'Toggle delete' }}
+            </button>
+        </div>
+
         <!-- Calendar Days -->
         <div class="uk-grid-small uk-child-width-1-4@m" uk-grid>
-            <div v-for="(day, index) in days" :key="day.date" class="calendar-day" @click="selectDay(index)">
+            <div 
+                v-for="(day, index) in days" 
+                :key="day?.date" 
+                :class="{'delete-mode': deleteMode}" 
+                class="calendar-day" 
+                @click="!deleteMode && selectDay(index)"
+            >
                 <div class="uk-card uk-card-default uk-card-body">
                     <h3 class="uk-card-title">{{ day.date }}</h3>
                     <ul>
-                        <li v-for="exercise in day.exercises" :key="exercise.id">{{ exercise.name }}</li>
+                        <li 
+                            v-for="(exercise, exerciseIndex) in day.exercises" 
+                            :key="exerciseIndex" 
+                            class="exercise-item"
+                        >
+                            <span>{{ exercise.name }}</span>
+                            <button 
+                                v-if="deleteMode" 
+                                class="uk-button uk-button-danger uk-button-small delete-btn"
+                                @click.stop="deleteExerciseFromDay(index, exerciseIndex)"
+                            >
+                                Delete
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-    
+
         <!-- Modal for Adding Exercises -->
         <div id="exercise-modal" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <h2 class="uk-modal-title">Select an Exercise</h2>
-    
+
                 <!-- Show Loading Message -->
                 <div v-if="isLoading" class="uk-text-center">
                     <p>Loading exercises...</p>
                 </div>
-    
+
                 <!-- Exercise List -->
                 <ul v-else>
-                    <li v-for="exercise in exercises" :key="exercise.id" @click="addExerciseToDay(exercise)">
-                        <button class="uk-button uk-button-default uk-margin-small-bottom">{{ exercise.name }}</button>
+                    <li 
+                        v-for="exercise in exercises" 
+                        :key="exercise.id" 
+                        @click="addExerciseToDay(exercise)"
+                    >
+                        <button class="uk-button uk-button-default uk-margin-small-bottom">
+                            {{ exercise.name }}
+                        </button>
                     </li>
                 </ul>
                 <button class="uk-button uk-button-danger uk-modal-close">Close</button>
             </div>
         </div>
     </div>
-    
 
     <script src="./calendar.js"></script>
 </body>

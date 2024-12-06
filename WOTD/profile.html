@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="profile-container">
+        <h2>Profile Information</h2>
+        <div id="profileDetails">
+            <!-- Profile details will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Retrieve the logged-in user data from localStorage
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+        if (loggedInUser && loggedInUser.id) {
+            const personId = loggedInUser.id; // Get the logged-in user's ID
+
+            // Fetch the user profile from the backend API
+            fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`) // Replace with your actual API URL
+                .then(response => response.json()) // Parse the response as JSON
+                .then(data => {
+                    if (data) {
+                        // Populate the profile details on the page
+                        const profileDetails = document.getElementById('profileDetails');
+                        profileDetails.innerHTML = `
+                            <p><strong>Name:</strong> ${data.FName}</p>
+                            <p><strong>Gender:</strong> ${data.Gender}</p>
+                            <p><strong>Age:</strong> ${data.Age}</p>
+                            <p><strong>Average Pulse:</strong> ${data.AvgPulse}</p>
+                            <p><strong>Weight:</strong> ${data.Weight} kg</p>
+                            <p><strong>Height:</strong> ${data.Height} cm</p>
+                            <p><strong>Username:</strong> ${data.Username}</p>
+                            <p><strong>Measurements:</strong> ${data.Measurements}</p>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching profile:', error);
+                    document.getElementById('profileDetails').innerHTML = 'Failed to load profile.';
+                });
+        } else {
+            // If no user is logged in, redirect to the login page
+            window.location.href = 'login.html'; // Redirect to login page if not logged in
+        }
+    </script>
+</body>
+</html>

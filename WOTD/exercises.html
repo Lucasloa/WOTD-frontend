@@ -89,19 +89,6 @@
 
              <div v-for="exercise in exercises" :key="exercise.id">
 
-                  <div class="uk-card uk-card-default uk-card-body uk-text-center">
-
-                       <img src="https://via.placeholder.com/150" alt="Exercise Image" class="uk-border-circle">
-
-                        <h3 class="uk-card-title">{{ exercise.name }}</h3>
-
-                         <p>Muscle: {{ exercise.muscle }}</p>
-
-                          <p>Type: {{ exercise.type }}</p>
-
-                           <p>Difficulty: {{ exercise.difficulty }}</p>
-
-                           <a @click="addToCalendar(exercise)" class="uk-button uk-button-primary" href="calendar.html">Add to Calendar</a>
                     </div>
                 </div>
             </div>

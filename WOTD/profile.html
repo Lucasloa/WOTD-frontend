@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,17 +20,21 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .profile-container h2 {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .profile-container p {
             font-size: 16px;
             margin: 8px 0;
         }
     </style>
 </head>
+
 <body>
+    <!-- Header Section -->
     <header class="uk-position-relative uk-light">
         <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
         <nav class="uk-navbar-container uk-navbar-transparent">
@@ -55,6 +60,8 @@
                             </li>
                         </ul>
                     </div>
+
+                    <!-- Dynamic Logged In User Section -->
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
                             <li><a href="login.html">Login</a></li>
@@ -66,44 +73,72 @@
         </nav>
     </header>
 
+    <!-- Main Profile Information Section -->
     <div class="uk-container">
         <div class="profile-container">
             <h2>Profile Information</h2>
             <div id="profileDetails">
-                <!-- Profile details will be populated here -->
+                <!-- Profile details will be dynamically populated here -->
             </div>
         </div>
     </div>
 
+    <!-- Script to Manage Logged In User & Profile -->
     <script>
-        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script to show logged-in user's details in the navbar if available
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            const navbarRight = document.querySelector('.uk-navbar-right');
 
-        if (loggedInUser && loggedInUser.id) {
-            const personId = loggedInUser.id;
-            fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data) {
-                        const profileDetails = document.getElementById('profileDetails');
-                        profileDetails.innerHTML = `
-                            <p><strong>Name:</strong> ${data.fName}</p>
-                            <p><strong>Gender:</strong> ${data.gender}</p>
-                            <p><strong>Age:</strong> ${data.age}</p>
-                            <p><strong>Average Pulse:</strong> ${data.avgPulse}</p>
-                            <p><strong>Weight:</strong> ${data.weight} kg</p>
-                            <p><strong>Height:</strong> ${data.height} cm</p>
-                            <p><strong>Username:</strong> ${data.username}</p>
-                            <p><strong>Measurements:</strong> ${data.measurements.map(m => `Date: ${m.date}, Pulse: ${m.pulse}`).join('<br>')}</p>
-                        `;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching profile:', error);
-                    document.getElementById('profileDetails').innerHTML = 'Failed to load profile.';
+            if (loggedInUser) {
+                let navItems = `
+                    <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong></li>
+                    <li><a id="logout" href="index.html">Logout</a></li>
+                    <li><a id="Calendar" href="calendar.html">Calendar</a></li>
+                    <li><a id="Profile" href="profile.html">Profile</a></li>
+                `;
+
+                if (loggedInUser.isAdmin) {
+                    navItems += `<li><a href="admin-dashboard.html">Admin Dashboard</a></li>`;
+                }
+
+                navbarRight.innerHTML = navItems;
+
+                // Logout functionality
+                document.getElementById('logout').addEventListener('click', () => {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.reload();
                 });
-        } else {
-            window.location.href = 'login.html';
-        }
+            }
+
+            // Fetch profile details if logged in
+            if (loggedInUser && loggedInUser.id) {
+                const personId = loggedInUser.id;
+                fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            const profileDetails = document.getElementById('profileDetails');
+                            profileDetails.innerHTML = `
+                                <p><strong>Name:</strong> ${data.fName}</p>
+                                <p><strong>Gender:</strong> ${data.gender}</p>
+                                <p><strong>Age:</strong> ${data.age}</p>
+                                <p><strong>Average Pulse:</strong> ${data.avgPulse}</p>
+                                <p><strong>Weight:</strong> ${data.weight} kg</p>
+                                <p><strong>Height:</strong> ${data.height} cm</p>
+                                <p><strong>Username:</strong> ${data.username}</p>
+                                <p><strong>Measurements:</strong> ${data.measurements.map(m => `Date: ${m.date}, Pulse: ${m.pulse}`).join('<br>')}</p>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching profile:', error);
+                        document.getElementById('profileDetails').innerHTML = 'Failed to load profile.';
+                    });
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
     </script>
 </body>
 </html>

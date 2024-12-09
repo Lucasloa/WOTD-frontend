@@ -88,5 +88,46 @@
             <button type="submit">Sign Up</button>
         </form>
     </div>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function (e) {
+            e.preventDefault(); // Forhindre standard formular submission
+        
+            const formData = {
+                FName: document.getElementById('fname').value,
+                Gender: document.getElementById('gender').value,
+                Age: document.getElementById('age').value,
+                AvgPulse: document.getElementById('avgpulse').value,
+                Weight: document.getElementById('weight').value,
+                Height: document.getElementById('height').value,
+                Username: document.getElementById('username').value,
+                Password: document.getElementById('password').value, // Husk at hash i backend!
+            };
+        
+            try {
+                const response = await fetch('https://wotdcontroller.azurewebsites.net/wotd', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+        
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message); // Succes besked
+                    window.location.href = 'login.html'; // Redirect til login side
+                } else {
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.error}`);
+                }
+            } catch (error) {
+                console.error('There was an error:', error);
+                alert('Failed to sign up. Please try again later.');
+            }
+        });
+        </script>
+        
+    <!-- Link til signup.js -->
+    <script src="signup.js"></script>
 </body>
 </html>

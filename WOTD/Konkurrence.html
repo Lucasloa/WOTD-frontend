@@ -13,57 +13,125 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head>
+
     <body>
-        <div id="app">
-          <h1>Competitions</h1>
-          <div v-for="competition in competitions" :key="competition.id" class="competition">
-            <div>
-              <h3>{{ competition.name }}</h3>
-              <p>{{ competition.description }}</p>
-            </div>
-            <button @click="signUp(competition.id)" :disabled="competition.signedUp">
-              {{ competition.signedUp ? 'Signed Up' : 'Sign Up' }}
-            </button>
-          </div>
-        </div>
-      
-        <!-- Include Axios -->
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <!-- Include the Vue.js script -->
-        <script src="./Konkurrence.js"></script>
-
-        <script>
-          const { createApp } = Vue;
-      
-          createApp({
-            data() {
-              return {
-                competitions: [
-                  { id: 1, name: 'Step Challenge', description: 'Who can take the most steps in a week?', signedUp: false },
-                  { id: 2, name: 'Calories Burned Challenge', description: 'Who can burn the most calories in a Month?', signedUp: false },
-                  { id: 3, name: 'Streak Challenge', description: 'Who can keep a streak the longest?', signedUp: false },
-                  { id: 4, name: 'Group Fitness Battle', description: 'Who´s team can accumulate the most points', signedUp: false },
-                  { id: 5, name: 'Virtual Marathon', description: 'Who can accumulate the most miles in a month', signedUp: false },
-                  { id: 6, name: 'Strength Challenge', description: 'Who can achieve the best results in strength challenges', signedUp: false },
-                  { id: 7, name: 'Wellness Warrior', description: 'Who can best combine their trainning with mental wellness', signedUp: false },
-                  { id: 8, name: 'HIIT Hero', description: 'Who can complete the most HIIT challenges in a week', signedUp: false },
-                  { id: 9, name: 'Fitness Transformation Challenge', description: 'Who can change their physique the most in a week', signedUp: false },
-                  { id: 10, name: 'Daily Surprise Challenge', description: 'Who can complete the surprise challenge, the fastest?', signedUp: false },
-                ],
-              };
-            },
-            methods: {
-              signUp(competitionId) {
-                const competition = this.competitions.find(c => c.id === competitionId);
-                if (competition && !competition.signedUp) {
-                  competition.signedUp = true;
-                  alert(`You have signed up for ${competition.name}!`);
-                }
-              },
-            },
-          }).mount('#app');
-        </script>
-
+        <header class="uk-position-relative uk-light">
+            <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
+            <nav class="uk-navbar-container uk-navbar-transparent">
+                <div class="uk-container">
+                    <div uk-navbar>
+                        <div class="uk-navbar-left">
+                            <a href="index.html" class="uk-navbar-item uk-logo">
+                                <img src="assets/WorkOutToDoLogo.png" alt="Workout of the Day Logo" width="50" height="auto">
+                            </a>
+                            <ul class="uk-navbar-nav">
+                                <li class="uk-active"><a href="index.html">Home</a></li>
+                                <li><a href="exercises.html">Workouts</a></li>
+                                <li><a href="Konkurrence.html">Konkurrencer</a></li>
+                                <li>
+                                    <a href="#">More</a>
+                                    <div class="uk-navbar-dropdown">
+                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                            <li><a href="aboutus.html">About</a></li>
+                                            <li class="uk-nav-divider"></li>
+                                            <li><a href="#">Contact</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="uk-navbar-right">
+                            <ul class="uk-navbar-nav">
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="#">Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
         
+        <div id="app">
+            <h1>Competitions</h1>
+            <div v-for="competition in competitions" :key="competition.id" class="competition">
+              <div>
+                <h3>{{ competition.name }}</h3>
+                <p>{{ competition.description }}</p>
+              </div>
+              <button @click="signUp(competition.id)" :disabled="competition.signedUp">
+                {{ competition.signedUp ? 'Signed Up' : 'Sign Up' }}
+              </button>
+            </div>
+          </div>
+  
+          <script>
+            const { createApp } = Vue;
+        
+            createApp({
+              data() {
+                return {
+                  competitions: [
+                    { id: 1, name: 'Step Challenge', description: 'Who can take the most steps in a week?', signedUp: false },
+                    { id: 2, name: 'Calories Burned Challenge', description: 'Who can burn the most calories in a Month?', signedUp: false },
+                    { id: 3, name: 'Streak Challenge', description: 'Who can keep a streak the longest?', signedUp: false },
+                    { id: 4, name: 'Group Fitness Battle', description: 'Who´s team can accumulate the most points', signedUp: false },
+                    { id: 5, name: 'Virtual Marathon', description: 'Who can accumulate the most miles in a month', signedUp: false },
+                    { id: 6, name: 'Strength Challenge', description: 'Who can achieve the best results in strength challenges', signedUp: false },
+                    { id: 7, name: 'Wellness Warrior', description: 'Who can best combine their trainning with mental wellness', signedUp: false },
+                    { id: 8, name: 'HIIT Hero', description: 'Who can complete the most HIIT challenges in a week', signedUp: false },
+                    { id: 9, name: 'Fitness Transformation Challenge', description: 'Who can change their physique the most in a week', signedUp: false },
+                    { id: 10, name: 'Daily Surprise Challenge', description: 'Who can complete the surprise challenge, the fastest?', signedUp: false },
+                  ],
+                };
+              },
+              methods: {
+                signUp(competitionId) {
+                  const competition = this.competitions.find(c => c.id === competitionId);
+                  if (competition && !competition.signedUp) {
+                    competition.signedUp = true;
+                    alert(`You have signed up for ${competition.name}!`);
+                  }
+                },
+              },
+            }).mount('#app');
+          </script>
+
+
+       <script> 
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    
+        if (loggedInUser) {
+        const navbarRight = document.querySelector('.uk-navbar-right');
+    
+        let navItems = `
+            <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong></li>
+            <li><a id="logout" href="index.html">Logout</a></li>
+            <li><a id="Calendar" href="calendar.html">Calendar</a></li>
+        `;
+    
+        if (loggedInUser.isAdmin) {
+            navItems = `
+                ${navItems}
+                <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+            `;
+        }
+    
+        navbarRight.innerHTML = navItems;
+    
+        // Attach logout functionality
+        document.getElementById('logout').addEventListener('click', () => {
+            localStorage.removeItem('loggedInUser');
+            window.location.reload();
+        });
+    }
+    
+       </script>
+       
+        <!-- Link to Vue scripts -->
+        <script src="./DailyWorkout.js"></script>
+        <script src="./quote.js"></script>
+        <script src="./login.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="./Konkurrence.js"></script>
     </body>
 </html>

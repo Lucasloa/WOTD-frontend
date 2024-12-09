@@ -9,6 +9,7 @@ const exerciseImages = {
     "Chest dip" : "./assets/chestDip.gif",
     "Decline Dumbbell Flyes" : "./assets/declineFlyes.gif",
     "Bodyweight Flyes" : "./assets/bodyweightFlyes.gif",
+
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -23,8 +24,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         const exercises = response.data;
 
-        // Dynamically generate exercise cards
         exercises.forEach((exercise) => {
+            // Use the mapped image URL or a placeholder if no match
             const imageUrl = exerciseImages[exercise.name] || "https://via.placeholder.com/150";
             const card = `
                 <div>
@@ -34,15 +35,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <p>Muscle: ${exercise.muscle}</p>
                         <p>Type: ${exercise.type}</p>
                         <p>Difficulty: ${exercise.difficulty}</p>
-                        <button class="uk-button uk-button-primary add-to-calendar">Add to Calendar</button>
+                        <button class="uk-button uk-button-primary">Add to Calendar</button>
                     </div>
                 </div>
             `;
             container.innerHTML += card;
         });
 
-        // Reattach "Add to Calendar" event listeners after rendering
-        attachAddToCalendarEventListeners();
     } catch (error) {
         console.error("Error fetching exercises:", error);
         container.innerHTML = `
@@ -76,15 +75,13 @@ document.querySelector("#search-button").addEventListener("click", async () => {
                         <p>Muscle: ${exercise.muscle}</p>
                         <p>Type: ${exercise.type}</p>
                         <p>Difficulty: ${exercise.difficulty}</p>
-                        <button class="uk-button uk-button-primary add-to-calendar">Add to Calendar</button>
+                        <button class="uk-button uk-button-primary">Add to Calendar</button>
                     </div>
                 </div>
             `;
             container.innerHTML += card;
         });
 
-        // Reattach "Add to Calendar" event listeners after search results are displayed
-        attachAddToCalendarEventListeners();
     } catch (error) {
         console.error("Error fetching exercises:", error);
         const container = document.querySelector(".uk-grid-small");
@@ -95,14 +92,39 @@ document.querySelector("#search-button").addEventListener("click", async () => {
         `;
     }
 });
+const app = Vue.createApp({
+    data() {
+        return {
+            exercises: [], // Holds fetched exercises
+        };
+    },
+    methods: {
+        async searchExercises() {
+            const API_URL = "https://api.api-ninjas.com/v1/exercises";
+            const API_KEY = "+dIZRhCnq8grOuytY/aTJg==6YnDIrNneZLxp1bw";
 
-// Function to attach the "Add to Calendar" event listeners
-function attachAddToCalendarEventListeners() {
-    const buttons = document.querySelectorAll(".add-to-calendar");
-    buttons.forEach(button => {
-        button.addEventListener("click", (e) => {
-            const exerciseName = e.target.closest('.uk-card').querySelector('.uk-card-title').innerText;
-            alert(`${exerciseName} has been added to your calendar!`);
-        });
-    });
-}
+            try {
+                const response = await axios.get(API_URL, {
+                    headers: { "X-Api-Key": API_KEY },
+                });
+                this.exercises = response.data;
+            } catch (error) {
+                console.error("Error fetching exercises:", error);
+                UIkit.notification('Failed to load exercises. Please try again.', { status: 'danger' });
+            }
+        },
+        addToCalendar(exercise) {
+            // Save the exercise data to localStorage
+            localStorage.setItem('selectedExercise', JSON.stringify(exercise));
+
+            // Redirect to calendar.html
+            window.location.href = "calendar.html";
+        },
+    },
+    mounted() {
+        // Automatically fetch exercises when page loads
+        this.searchExercises();
+    },
+});
+
+app.mount('#app');

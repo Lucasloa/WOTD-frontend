@@ -16,6 +16,7 @@ fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
             <p><strong>Weight:</strong> ${data.Weight} kg</p>
             <p><strong>Height:</strong> ${data.Height} cm</p>
             <p><strong>Username:</strong> ${data.Username}</p>
+            <p><strong>Measurements:</strong> ${data.measurements.map(m => `Date: ${m.date}, Value: ${m.pulse}`).join('<br>')}</p>
         `;
     })
     .catch(error => {

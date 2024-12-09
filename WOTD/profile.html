@@ -1,53 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
+    <style>
+        .profile-container {
+            margin: 50px auto;
+            max-width: 600px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-container p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="profile-container">
-        <h2>Profile Information</h2>
-        <div id="profileDetails">
-            <!-- Profile details will be populated here -->
+    <!-- Header Section -->
+    <header class="uk-position-relative uk-light">
+        <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
+        <nav class="uk-navbar-container uk-navbar-transparent">
+            <div class="uk-container">
+                <div uk-navbar>
+                    <div class="uk-navbar-left">
+                        <a href="index.html" class="uk-navbar-item uk-logo">
+                            <img src="assets/WorkOutToDoLogo.png" alt="Workout of the Day Logo" width="50">
+                        </a>
+                        <ul class="uk-navbar-nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="exercises.html">Workouts</a></li>
+                            <li><a href="Konkurrence.html">Konkurrencer</a></li>
+                            <li>
+                                <a href="#">More</a>
+                                <div class="uk-navbar-dropdown">
+                                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                                        <li><a href="aboutus.html">About</a></li>
+                                        <li class="uk-nav-divider"></li>
+                                        <li><a href="#">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Dynamic Logged In User Section -->
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav">
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="#">Sign Up</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Profile Information Section -->
+    <div class="uk-container">
+        <div class="profile-container">
+            <h2>Profile Information</h2>
+            <div id="profileDetails">
+                <!-- Profile details will be dynamically populated here -->
+            </div>
         </div>
     </div>
 
+    <!-- Script to Manage Logged In User & Profile -->
     <script>
-        // Retrieve the logged-in user data from localStorage
-        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        document.addEventListener('DOMContentLoaded', function () {
+            // Script to show logged-in user's details in the navbar if available
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            const navbarRight = document.querySelector('.uk-navbar-right');
 
-        if (loggedInUser && loggedInUser.id) {
-            const personId = loggedInUser.id; // Get the logged-in user's ID
+            if (loggedInUser) {
+                let navItems = `
+                    <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong></li>
+                    <li><a id="logout" href="index.html">Logout</a></li>
+                    <li><a id="Calendar" href="calendar.html">Calendar</a></li>
+                    <li><a id="Profile" href="profile.html">Profile</a></li>
+                `;
 
-            // Fetch the user profile from the backend API
-            fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`) // Replace with your actual API URL
-                .then(response => response.json()) // Parse the response as JSON
-                .then(data => {
-                    if (data) {
-                        // Populate the profile details on the page
-                        const profileDetails = document.getElementById('profileDetails');
-                        profileDetails.innerHTML = `
-                            <p><strong>Name:</strong> ${data.FName}</p>
-                            <p><strong>Gender:</strong> ${data.Gender}</p>
-                            <p><strong>Age:</strong> ${data.Age}</p>
-                            <p><strong>Average Pulse:</strong> ${data.AvgPulse}</p>
-                            <p><strong>Weight:</strong> ${data.Weight} kg</p>
-                            <p><strong>Height:</strong> ${data.Height} cm</p>
-                            <p><strong>Username:</strong> ${data.Username}</p>
-                            <p><strong>Measurements:</strong> ${data.Measurements}</p>
-                        `;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching profile:', error);
-                    document.getElementById('profileDetails').innerHTML = 'Failed to load profile.';
+                if (loggedInUser.isAdmin) {
+                    navItems += `<li><a href="admin-dashboard.html">Admin Dashboard</a></li>`;
+                }
+
+                navbarRight.innerHTML = navItems;
+
+                // Logout functionality
+                document.getElementById('logout').addEventListener('click', () => {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.reload();
                 });
-        } else {
-            // If no user is logged in, redirect to the login page
-            window.location.href = 'login.html'; // Redirect to login page if not logged in
-        }
+            }
+
+            // Fetch profile details if logged in
+            if (loggedInUser && loggedInUser.id) {
+                const personId = loggedInUser.id;
+                fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            const profileDetails = document.getElementById('profileDetails');
+                            profileDetails.innerHTML = `
+                                <p><strong>Name:</strong> ${data.fName}</p>
+                                <p><strong>Gender:</strong> ${data.gender}</p>
+                                <p><strong>Age:</strong> ${data.age}</p>
+                                <p><strong>Average Pulse:</strong> ${data.avgPulse}</p>
+                                <p><strong>Weight:</strong> ${data.weight} kg</p>
+                                <p><strong>Height:</strong> ${data.height} cm</p>
+                                <p><strong>Username:</strong> ${data.username}</p>
+                                <p><strong>Measurements:</strong> ${data.measurements.map(m => `Date: ${m.date}, Pulse: ${m.pulse}`).join('<br>')}</p>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching profile:', error);
+                        document.getElementById('profileDetails').innerHTML = 'Failed to load profile.';
+                    });
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
     </script>
 </body>
 </html>

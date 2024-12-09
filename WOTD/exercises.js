@@ -1,3 +1,5 @@
+
+
 const exerciseImages = {
     "Pushups": "./assets/pushup.gif",
     "Dumbbell Bench Press": "./assets/dumbbellBenchPress.gif",

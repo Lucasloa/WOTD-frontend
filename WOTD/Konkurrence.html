@@ -27,7 +27,7 @@
                             <ul class="uk-navbar-nav">
                                 <li class="uk-active"><a href="index.html">Home</a></li>
                                 <li><a href="exercises.html">Workouts</a></li>
-                                <li><a href="Konkurrence.html">Konkurrencer</a></li>
+                                <li><a href="Konkurrence.html">Competitions</a></li>
                                 <li>
                                     <a href="#">More</a>
                                     <div class="uk-navbar-dropdown">
@@ -126,7 +126,47 @@
     }
     
        </script>
-       
+
+<div id="competitionApp">
+    <div class="uk-container uk-margin-top uk-flex uk-flex-right">
+        <button 
+            class="uk-button uk-button-danger uk-margin-bottom" 
+            @click="toggleCompetitionDelete"
+        >
+            {{ CompetitionDelete ? 'Toggle delete' : 'Toggle delete' }}
+        </button>
+    </div>
+
+<div class="uk-grid-small uk-child-width-1-4@m" uk-grid>
+    <div 
+        v-for="(competition, index) in competitions" 
+        :key="competition?.id" 
+        :class="{'delete-mode': deleteMode}" 
+        class="competition-card" 
+        @click="!deleteMode && selectCompetition(index)"
+    >
+        <div class="uk-card uk-card-default uk-card-body">
+            <h3 class="uk-card-title">{{ day.date }}</h3>
+            <ul>
+                <li 
+                    v-for="(competition, competitionIndex) in day.competitions" 
+                    :key="competitionIndex" 
+                    class="competition-card"
+                >
+                    <span>{{ competition.name }}</span>
+                    <button 
+                        v-if="deleteMode" 
+                        class="uk-button uk-button-danger uk-button-small delete-btn"
+                        @click.stop="deleteCompetitionFromDay(index, competitionIndex)"
+                    >
+                        Delete
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
         <!-- Link to Vue scripts -->
         <script src="./DailyWorkout.js"></script>
         <script src="./quote.js"></script>

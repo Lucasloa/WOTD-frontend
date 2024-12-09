@@ -13,6 +13,13 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
 </head>
 <body>
+    <style>
+        #app {
+    margin-top: 200px !important;
+    position: relative; /* Ensure it respects the margin */
+}
+
+    </style>
     <!-- Hero Section with Background Image -->
     <header class="uk-position-relative uk-light">
         <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
@@ -74,7 +81,7 @@
     </div>
 
     <!-- Exercise Grid Section -->
-    <div id="app" class="uk-container uk-margin-large-top">
+    <div id="app" class="uk-container uk-margin-large-top" style="margin-top: -px;">
           <div class="uk-grid-small uk-child-width-1-3@m uk-flex-center" uk-grid>
 
             <!-- Exercise cards will be dynamically injected here by Vue -->

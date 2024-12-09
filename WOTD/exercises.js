@@ -97,54 +97,36 @@ document.querySelector("#search-button").addEventListener("click", async () => {
 const app = Vue.createApp({
     data() {
         return {
-            exercises: [], // Array of exercises fetched from API or static data
+            exercises: [], // Holds fetched exercises
         };
     },
     methods: {
-        searchExercises() {
-            // Fetch exercises from an API or filter them dynamically
-            console.log("Search functionality is not implemented yet.");
+        async searchExercises() {
+            const API_URL = "https://api.api-ninjas.com/v1/exercises";
+            const API_KEY = "+dIZRhCnq8grOuytY/aTJg==6YnDIrNneZLxp1bw";
+
+            try {
+                const response = await axios.get(API_URL, {
+                    headers: { "X-Api-Key": API_KEY },
+                });
+                this.exercises = response.data;
+            } catch (error) {
+                console.error("Error fetching exercises:", error);
+                UIkit.notification('Failed to load exercises. Please try again.', { status: 'danger' });
+            }
         },
         addToCalendar(exercise) {
-            // Retrieve existing calendar from localStorage
-            let calendar = JSON.parse(localStorage.getItem('calendar')) || [];
+            // Save the exercise data to localStorage
+            localStorage.setItem('selectedExercise', JSON.stringify(exercise));
 
-            // Check if the exercise is already in the calendar
-            const isAlreadyAdded = calendar.some(item => item.id === exercise.id);
-            if (isAlreadyAdded) {
-                alert('This exercise is already in your calendar!');
-                return;
-            }
-
-            // Add the selected exercise to the calendar
-            calendar.push(exercise);
-
-            // Save the updated calendar back to localStorage
-            localStorage.setItem('calendar', JSON.stringify(calendar));
-
-            alert(`${exercise.name} has been added to your calendar!`);
-        }
+            // Redirect to calendar.html
+            window.location.href = "calendar.html";
+        },
     },
     mounted() {
-        // Example: Load exercises (could be replaced with an API call)
-        this.exercises = [
-            {
-                id: 1,
-                name: "Push-Up",
-                muscle: "Chest",
-                type: "Bodyweight",
-                difficulty: "Beginner",
-            },
-            {
-                id: 2,
-                name: "Pull-Up",
-                muscle: "Back",
-                type: "Bodyweight",
-                difficulty: "Intermediate",
-            },
-            // Add more example exercises
-        ];
-    }
+        // Automatically fetch exercises when page loads
+        this.searchExercises();
+    },
 });
 
 app.mount('#app');

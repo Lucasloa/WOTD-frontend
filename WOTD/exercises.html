@@ -33,13 +33,14 @@
                         </a>
                         <ul class="uk-navbar-nav">
                             <li><a href="index.html">Home</a></li>
-                            <li class="uk-active"><a href="exercises.html">Workouts</a></li>
+                            <li><a href="exercises.html">Workouts</a></li>
+                            <li><a href="Konkurrence.html">Competition</a></li>
                             <li>
                                 <a href="#">More</a>
                                 <div class="uk-navbar-dropdown">
                                     <ul class="uk-nav uk-navbar-dropdown-nav">
                                         <li><a href="#">Blog</a></li>
-                                        <li><a href="#">About</a></li>
+                                        <li><a href="aboutus.html">About</a></li>
                                         <li class="uk-nav-divider"></li>
                                         <li><a href="#">Contact</a></li>
                                     </ul>
@@ -100,9 +101,7 @@
 
                            <p>Difficulty: {{ exercise.difficulty }}</p>
 
-                           <a @click="addToCalendar(exercise)" class="uk-button uk-button-primary" href="calender.html">Add to Calendar</a>
-
-
+                           <a @click="addToCalendar(exercise)" class="uk-button uk-button-primary" href="calendar.html">Add to Calendar</a>
                     </div>
                 </div>
             </div>
@@ -126,6 +125,8 @@
             let navItems = `
                 <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong>!</li>
                 <li><a href="#" id="logout">Logout</a></li>
+                <li><a id="Calendar" href="calendar.html">Calendar</a></li>
+                <li><a id="Profile" href="profile.html">Profile</a></li>
             `;
     
             if (loggedInUser.isAdmin) {

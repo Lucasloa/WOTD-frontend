@@ -100,18 +100,40 @@
         }
     </script>
     <div id="calendarApp">
+        <!-- Navigation Buttons -->
+<div class="uk-container uk-margin-top uk-flex uk-flex-right">
+    <button 
+        class="uk-button uk-button-default uk-margin-bottom uk-margin-right" 
+        @click="goToPreviousMonth"
+    >
+        Previous Month
+    </button>
+    <button 
+        class="uk-button uk-button-default uk-margin-bottom" 
+        @click="goToNextMonth"
+    >
+        Next Month
+    </button>
+</div>
         <!-- Toggle Delete Mode Button -->
         <div class="uk-container uk-margin-top uk-flex uk-flex-right">
             <button 
-                class="uk-button uk-button-danger uk-margin-bottom" 
+                class="uk-button uk-button-warning uk-margin-bottom" 
                 @click="toggleDeleteMode"
             >
-                {{ deleteMode ? 'Toggle delete' : 'Toggle delete' }}
+                {{ deleteMode ? 'Deleting' : 'Toggle Deleting' }}
             </button>
+                <button 
+                    class="uk-button uk-button-danger uk-margin-bottom" 
+                    @click="clearAllExercises"
+                >
+                    Clear All Exercises
+                </button>
         </div>
+        
 
         <!-- Calendar Days -->
-        <div class="uk-grid-small uk-child-width-1-4@m" uk-grid>
+        <div class="uk-grid-small uk-child-width-1-6@m" uk-grid>
             <div 
                 v-for="(day, index) in days" 
                 :key="day?.date" 

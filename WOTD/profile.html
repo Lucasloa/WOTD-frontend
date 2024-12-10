@@ -152,22 +152,23 @@
                 // Save button event listener
                 saveButton.addEventListener('click', function () {
                     const updatedData = {
-                        fName: document.getElementById('name').value,
-                        gender: document.getElementById('gender').value,
-                        age: document.getElementById('age').value,
-                        avgPulse: document.getElementById('avgPulse').value,
-                        weight: document.getElementById('weight').value,
-                        height: document.getElementById('height').value,
-                        username: document.getElementById('username').value,
+                    fName: document.getElementById('name').value || "",
+                    gender: document.getElementById('gender').value || "",
+                    age: parseInt(document.getElementById('age').value) || null,
+                    avgPulse: parseInt(document.getElementById('avgPulse').value) || null,
+                    weight: parseFloat(document.getElementById('weight').value) || null,
+                    height: parseFloat(document.getElementById('height').value) || null,
+                    username: document.getElementById('username').value || "",
                     };
+
 
                     // Send updated data to the backend
                     fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`, {
-                        method: 'PUT', // You may use PATCH if the server supports it for partial updates
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(updatedData),
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(updatedData),
                     })
                     .then(response => response.json())
                     .then(data => {

@@ -33,9 +33,27 @@
             margin: 8px 0;
         }
 
+<<<<<<< Updated upstream
         #measurements {
             display: none; /* Initially hidden */
             margin-top: 15px;
+=======
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        .save-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #5cb85c;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+>>>>>>> Stashed changes
         }
     </style>
 </head>
@@ -87,40 +105,27 @@
             <div id="profileDetails">
                 <!-- Profile details will be dynamically populated here -->
             </div>
+            <button id="saveButton" class="save-button">Save Changes</button>
         </div>
     </div>
 
     <!-- Script to Manage Logged In User & Profile -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+<<<<<<< Updated upstream
+=======
+            // Fetch the logged-in user
+>>>>>>> Stashed changes
             const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-            const navbarRight = document.querySelector('.uk-navbar-right');
+            const profileDetails = document.getElementById('profileDetails');
+            const saveButton = document.getElementById('saveButton');
 
-            if (loggedInUser) {
-                let navItems = `
-                    <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong></li>
-                    <li><a id="logout" href="index.html">Logout</a></li>
-                    <li><a id="Calendar" href="calendar.html">Calendar</a></li>
-                    <li><a id="Profile" href="profile.html">Profile</a></li>
-                `;
-
-                if (loggedInUser.isAdmin) {
-                    navItems += `<li><a href="admin-dashboard.html">Admin Dashboard</a></li>`;
-                }
-
-                navbarRight.innerHTML = navItems;
-
-                // Logout functionality
-                document.getElementById('logout').addEventListener('click', () => {
-                    localStorage.removeItem('loggedInUser');
-                    window.location.reload();
-                });
-            }
-
-            // Fetch profile details if logged in
+            // If logged-in user exists, fetch their profile
             if (loggedInUser && loggedInUser.id) {
                 const personId = loggedInUser.id;
+
                 fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
+<<<<<<< Updated upstream
     .then(response => response.json())
     .then(data => {
         if (data) {
@@ -217,10 +222,76 @@
         document.getElementById('profileDetails').innerHTML = 'Failed to load profile.';
     });
 
+=======
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            // Populate the profile section with the user's data
+                            profileDetails.innerHTML = `
+                                <label for="name">Name:</label>
+                                <input id="name" class="input-field" type="text" value="${data.fName}" />
+
+                                <label for="gender">Gender:</label>
+                                <input id="gender" class="input-field" type="text" value="${data.gender}" />
+
+                                <label for="age">Age:</label>
+                                <input id="age" class="input-field" type="number" value="${data.age}" />
+
+                                <label for="avgPulse">Average Pulse:</label>
+                                <input id="avgPulse" class="input-field" type="number" value="${data.avgPulse}" />
+
+                                <label for="weight">Weight:</label>
+                                <input id="weight" class="input-field" type="number" value="${data.weight}" />
+
+                                <label for="height">Height:</label>
+                                <input id="height" class="input-field" type="number" value="${data.height}" />
+
+                                <label for="username">Username:</label>
+                                <input id="username" class="input-field" type="text" value="${data.username}" />
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching profile:', error);
+                        profileDetails.innerHTML = 'Failed to load profile.';
+                    });
+
+                // Save button event listener
+                saveButton.addEventListener('click', function () {
+                    const updatedData = {
+                        fName: document.getElementById('name').value,
+                        gender: document.getElementById('gender').value,
+                        age: document.getElementById('age').value,
+                        avgPulse: document.getElementById('avgPulse').value,
+                        weight: document.getElementById('weight').value,
+                        height: document.getElementById('height').value,
+                        username: document.getElementById('username').value,
+                    };
+
+                    // Send updated data to the backend
+                    fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`, {
+                        method: 'PUT', // You may use PATCH if the server supports it for partial updates
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(updatedData),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Profile updated successfully:', data);
+                        alert('Profile updated successfully!');
+                    })
+                    .catch(error => {
+                        console.error('Error updating profile:', error);
+                        alert('Failed to update profile.');
+                    });
+                });
+>>>>>>> Stashed changes
             } else {
                 window.location.href = 'login.html';
             }
         });
     </script>
 </body>
+
 </html>

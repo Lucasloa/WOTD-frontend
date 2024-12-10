@@ -33,11 +33,6 @@
             margin: 8px 0;
         }
 
-<<<<<<< Updated upstream
-        #measurements {
-            display: none; /* Initially hidden */
-            margin-top: 15px;
-=======
         .input-field {
             width: 100%;
             padding: 8px;
@@ -53,7 +48,6 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
->>>>>>> Stashed changes
         }
     </style>
 </head>
@@ -112,10 +106,7 @@
     <!-- Script to Manage Logged In User & Profile -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-<<<<<<< Updated upstream
-=======
             // Fetch the logged-in user
->>>>>>> Stashed changes
             const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
             const profileDetails = document.getElementById('profileDetails');
             const saveButton = document.getElementById('saveButton');
@@ -125,104 +116,6 @@
                 const personId = loggedInUser.id;
 
                 fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
-<<<<<<< Updated upstream
-    .then(response => response.json())
-    .then(data => {
-        if (data) {
-            const profileDetails = document.getElementById('profileDetails');
-            const measurements = data.measurements;
-
-            // Generate measurements HTML
-            let measurementsHtml = '';
-            const pulseData = [];
-            const dateLabels = [];
-
-            if (measurements && measurements.length > 0) {
-                measurements.forEach(m => {
-                    measurementsHtml += `<p>Date: ${m.date}, Pulse: ${m.pulse}</p>`;
-                    pulseData.push(m.pulse);
-                    dateLabels.push(m.date);
-                });
-            } else {
-                measurementsHtml = '<p>No measurements recorded.</p>';
-            }
-
-            // Populate Profile Details
-            profileDetails.innerHTML = `
-                <p><strong>Name:</strong> ${data.fName}</p>
-                <p><strong>Gender:</strong> ${data.gender}</p>
-                <p><strong>Age:</strong> ${data.age}</p>
-                <p><strong>Average Pulse:</strong> ${data.avgPulse}</p>
-                <p><strong>Weight:</strong> ${data.weight} kg</p>
-                <p><strong>Height:</strong> ${data.height} cm</p>
-                <p><strong>Username:</strong> ${data.username}</p>
-                <button id="toggleMeasurements" class="uk-button uk-button-primary">Show Measurements and Chart</button>
-                <div id="measurements" style="display: none;">
-                    ${measurementsHtml}
-                </div>
-                <div id="chartContainer" style="display: none; margin-top: 20px;">
-                    <canvas id="pulseChart" width="400" height="200"></canvas>
-                </div>
-            `;
-
-            // Initialize Chart.js for the pulse graph
-            const ctx = document.getElementById('pulseChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dateLabels, // X-axis labels
-                    datasets: [{
-                        label: 'Pulse Over Time',
-                        data: pulseData, // Y-axis values
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        tension: 0.3, // Smooth curves
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date',
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Pulse',
-                            },
-                            beginAtZero: false
-                        }
-                    }
-                }
-            });
-
-            // Toggle Measurements and Chart Visibility
-            const toggleButton = document.getElementById('toggleMeasurements');
-            const measurementsDiv = document.getElementById('measurements');
-            const chartContainer = document.getElementById('chartContainer');
-            toggleButton.addEventListener('click', () => {
-                const isHidden = measurementsDiv.style.display === 'none';
-                measurementsDiv.style.display = isHidden ? 'block' : 'none';
-                chartContainer.style.display = isHidden ? 'block' : 'none';
-                toggleButton.textContent = isHidden ? 'Hide Measurements and Chart' : 'Show Measurements and Chart';
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching profile:', error);
-        document.getElementById('profileDetails').innerHTML = 'Failed to load profile.';
-    });
-
-=======
                     .then(response => response.json())
                     .then(data => {
                         if (data) {
@@ -286,7 +179,6 @@
                         alert('Failed to update profile.');
                     });
                 });
->>>>>>> Stashed changes
             } else {
                 window.location.href = 'login.html';
             }

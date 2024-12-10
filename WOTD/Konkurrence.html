@@ -12,6 +12,70 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        /* Grid layout styling */
+        .headline {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 2rem;
+        }
+        .grid-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 20px;
+          padding: 20px;
+        }
+        .competition {
+        border: 2px solid #007bff; /* Solid border around each entry */
+        border-radius: 8px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+        .card {
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          padding: 20px;
+          background-color: #f9f9f9;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          text-align: center;
+        }
+    
+        .card h3 {
+          margin: 0 0 10px;
+          font-size: 1.2rem;
+        }
+    
+        .card p {
+          font-size: 1rem;
+          color: #666;
+          margin: 0 0 20px;
+        }
+    
+        .card button {
+          padding: 10px 15px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+    
+        .card button:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
+    
+        .card button:hover:not(:disabled) {
+          background-color: #0056b3;
+        }
+
+        .signup-button {
+        margin-top: auto; /* Pushes the button to the bottom of the card */
+        }
+      </style>
     </head>
 
     <body>
@@ -51,19 +115,29 @@
             </nav>
         </header>
         
+    
         <div id="app">
-            <h1>Competitions</h1>
-            <div v-for="competition in competitions" :key="competition.id" class="competition">
-              <div>
+            <h1 class="headline">Explore Competitions</h1>
+            <div class="grid-container">
+              <div v-for="competition in competitions" :key="competition.id" class="competition">
                 <h3>{{ competition.name }}</h3>
                 <p>{{ competition.description }}</p>
+                <!-- <button @click="signUp(competition.id)" :disabled="competition.signedUp">
+                  {{ competition.signedUp ? 'Signed Up' : 'Sign Up' }}
+                </button> -->
+                <button 
+            class="uk-button uk-button-primary signup-button"
+            @click="signUp(competition.id)"
+            :disabled="competition.signedUp">
+            {{ competition.signedUp ? 'Signed Up' : 'Sign Up' }}
+          </button>
+                <!-- <button @click="signUp(competition.id)" class="uk-button uk-button-primary uk-margin-left" id="search-button">Search</button> -->
               </div>
-              <button @click="signUp(competition.id)" :disabled="competition.signedUp">
-                {{ competition.signedUp ? 'Signed Up' : 'Sign Up' }}
-              </button>
             </div>
           </div>
-  
+        
+            
+                
           <script>
             const { createApp } = Vue;
         
@@ -127,49 +201,7 @@
     
        </script>
 
-<div id="competitionApp">
-    <div class="uk-container uk-margin-top uk-flex uk-flex-right">
-        <button 
-            class="uk-button uk-button-danger uk-margin-bottom" 
-            @click="toggleCompetitionDelete"
-        >
-            {{ CompetitionDelete ? 'Toggle delete' : 'Toggle delete' }}
-        </button>
-    </div>
-
-<div class="uk-grid-small uk-child-width-1-4@m" uk-grid>
-    <div 
-        v-for="(competition, index) in competitions" 
-        :key="competition?.id" 
-        :class="{'delete-mode': deleteMode}" 
-        class="competition-card" 
-        @click="!deleteMode && selectCompetition(index)"
-    >
-        <div class="uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">{{ day.date }}</h3>
-            <ul>
-                <li 
-                    v-for="(competition, competitionIndex) in day.competitions" 
-                    :key="competitionIndex" 
-                    class="competition-card"
-                >
-                    <span>{{ competition.name }}</span>
-                    <button 
-                        v-if="deleteMode" 
-                        class="uk-button uk-button-danger uk-button-small delete-btn"
-                        @click.stop="deleteCompetitionFromDay(index, competitionIndex)"
-                    >
-                        Delete
-                    </button>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
         <!-- Link to Vue scripts -->
-        <script src="./DailyWorkout.js"></script>
-        <script src="./quote.js"></script>
         <script src="./login.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="./Konkurrence.js"></script>

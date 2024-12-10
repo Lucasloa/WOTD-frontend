@@ -11,6 +11,16 @@ const exerciseImages = {
     "Chest dip" : "./assets/chestDip.gif",
     "Decline Dumbbell Flyes" : "./assets/declineFlyes.gif",
     "Bodyweight Flyes" : "./assets/bodyweightFlyes.gif",
+    "Rickshaw Carry" : "./assets/rickshawCarry.gif",
+    "Single-Leg Press" : "./assets/singleLegPress.gif",
+    "Landmine twist" : "./assets/landmineTwist.gif",
+    "Weighted pull-up" : "./assets/weightedPullUp.gif",
+    "T-Bar Row with Handle" : "./assets/tBarRow.gif",
+    "Palms-down wrist curl over bench" : "./assets/palmsDownWristCurl.gif",
+    "Atlas Stones" : "./assets/atlasStones.gif",
+    "Dumbbell front raise to lateral raise" : "./assets/frontRaiseToLateralRaise.gif",
+    "Clean from Blocks" : "./assets/cleanFromBlocks.gif",
+    "Incline Hammer Curls" : "./assets/inclineHammerCurls.gif",
 
 };
 

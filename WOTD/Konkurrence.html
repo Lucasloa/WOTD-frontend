@@ -122,17 +122,13 @@
               <div v-for="competition in competitions" :key="competition.id" class="competition">
                 <h3>{{ competition.name }}</h3>
                 <p>{{ competition.description }}</p>
-                <!-- <button @click="signUp(competition.id)" :disabled="competition.signedUp">
-                  {{ competition.signedUp ? 'Signed Up' : 'Sign Up' }}
-                </button> -->
                 <button 
             class="uk-button uk-button-primary signup-button"
             @click="signUp(competition.id)"
             :disabled="competition.signedUp">
             {{ competition.signedUp ? 'Signed Up' : 'Sign Up' }}
           </button>
-                <!-- <button @click="signUp(competition.id)" class="uk-button uk-button-primary uk-margin-left" id="search-button">Search</button> -->
-              </div>
+            </div>
             </div>
           </div>
         

@@ -1,12 +1,11 @@
 const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-const personId = loggedInUser.id; // This is the ID of the logged-in user
-console.log('Person ID:', personId);  // Check if the ID is correct
+const personId = loggedInUser.id;
+console.log('Person ID:', personId);
 
 fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
     .then(response => response.json())
     .then(data => {
-        console.log('Fetched data:', data); // Check the data returned from the API
-        // Populate the profile section with the user's data
+        console.log('Fetched data:', data);
         const profileDetails = document.getElementById('profileDetails');
         profileDetails.innerHTML = `
             <p><strong>Name:</strong> ${data.FName}</p>
@@ -20,6 +19,6 @@ fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
         `;
     })
     .catch(error => {
-        console.error('Error fetching profile:', error); // Log the error for more details
+        console.error('Error fetching profile:', error);
         document.getElementById('profileDetails').innerHTML = 'Failed to load profile.';
     });

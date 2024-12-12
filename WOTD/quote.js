@@ -7,7 +7,7 @@ const quoteApp = Vue.createApp({
                 { text: "Motivation is what gets you started. Habit is what keeps you going.", author: "Jim Ryun" },
                 { text: "What hurts today makes you stronger tomorrow.", author: "Jay Cutler" }
             ],
-            quote: {} // Holds the Quote of the Day
+            quote: {}
         };
     },
     created() {

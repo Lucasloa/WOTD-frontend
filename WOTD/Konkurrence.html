@@ -4,16 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercises</title>
-    <!-- Stylesheets -->
+  
     <link rel="stylesheet" href="./assets/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
-    <!-- Scripts -->
+    
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
-        /* Grid layout styling */
         .headline {
         text-align: center;
         margin: 20px 0;
@@ -73,7 +72,7 @@
         }
 
         .signup-button {
-        margin-top: auto; /* Pushes the button to the bottom of the card */
+        margin-top: auto;
         }
       </style>
     </head>
@@ -189,16 +188,12 @@
     
         navbarRight.innerHTML = navItems;
     
-        // Attach logout functionality
         document.getElementById('logout').addEventListener('click', () => {
             localStorage.removeItem('loggedInUser');
             window.location.reload();
         });
     }
-    
        </script>
-
-        <!-- Link to Vue scripts -->
         <script src="./login.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="./Konkurrence.js"></script>

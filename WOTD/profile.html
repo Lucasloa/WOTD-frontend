@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="./assets/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -53,7 +51,6 @@
 </head>
 
 <body>
-    <!-- Header Section -->
     <header class="uk-position-relative uk-light">
         <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
         <nav class="uk-navbar-container uk-navbar-transparent">
@@ -80,7 +77,6 @@
                         </ul>
                     </div>
 
-                    <!-- Dynamic Logged In User Section -->
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
                             <li><a href="login.html">Login</a></li>
@@ -92,18 +88,14 @@
         </nav>
     </header>
 
-    <!-- Main Profile Information Section -->
     <div class="uk-container">
         <div class="profile-container">
             <h2>Profile Information</h2>
-            <div id="profileDetails">
-                <!-- Profile details will be dynamically populated here -->
-            </div>
+            <div id="profileDetails"></div>
             <button id="saveButton" class="save-button">Save Changes</button>
         </div>
     </div>
 
-    <!-- Script to Manage Logged In User & Profile -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -116,7 +108,6 @@
                 return;
             }
     
-            // Populate Navbar
             let navItems = `
                 <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong></li>
                 <li><a id="logout" href="#">Logout</a></li>
@@ -128,7 +119,6 @@
             }
             navbarRight.innerHTML = navItems;
     
-            // Logout functionality
             document.getElementById('logout').addEventListener('click', () => {
                 localStorage.removeItem('loggedInUser');
                 window.location.href = 'index.html';
@@ -136,13 +126,11 @@
     
             const personId = loggedInUser.id;
     
-            // Fetch Profile and Measurements
             fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (!data) return;
     
-                    // Populate profile details
                     profileDetails.innerHTML = `
                         <label for="name">Name:</label>
                         <input id="name" class="input-field" type="text" value="${data.fName}" />
@@ -178,7 +166,6 @@
                     const pulseData = [];
                     const dateLabels = [];
     
-                    // Generate Measurements HTML
                     if (data.measurements && data.measurements.length > 0) {
                         data.measurements.forEach(m => {
                             measurementsDiv.innerHTML += `<p>Date: ${m.date}, Pulse: ${m.pulse}</p>`;
@@ -189,7 +176,6 @@
                         measurementsDiv.innerHTML = '<p>No measurements recorded.</p>';
                     }
     
-                    // Toggle Measurements and Chart
                     toggleButton.addEventListener('click', () => {
                         const isHidden = measurementsDiv.style.display === 'none';
                         measurementsDiv.style.display = isHidden ? 'block' : 'none';
@@ -197,7 +183,6 @@
                         toggleButton.textContent = isHidden ? 'Hide Measurements and Chart' : 'Show Measurements and Chart';
                     });
     
-                    // Render Chart.js
                     const ctx = document.getElementById('pulseChart').getContext('2d');
                     new Chart(ctx, {
                         type: 'line',
@@ -228,7 +213,6 @@
                     profileDetails.innerHTML = 'Failed to load profile.';
                 });
     
-            // Save Profile Updates
             saveButton.addEventListener('click', () => {
                 const updatedData = {
                     fName: document.getElementById('name').value,

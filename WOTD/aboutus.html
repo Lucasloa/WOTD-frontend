@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout of the Day</title>
-    <!-- Stylesheets -->
+
     <link rel="stylesheet" href="./assets/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
-    <!-- Scripts -->
+
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
@@ -57,7 +57,6 @@
                 </div>
             </div>
         </nav>
-        <!-- Quote of the Day -->
         <div id="qotd-section">
             <div id="QuoteApp">
                 <h3>"About Us"</h3>
@@ -89,7 +88,6 @@
 
             navbarRight.innerHTML = navItems;
 
-            // Attach logout functionality
             document.getElementById('logout').addEventListener('click', () => {
                 localStorage.removeItem('loggedInUser');
                 window.location.reload();

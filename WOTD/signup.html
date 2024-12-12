@@ -90,7 +90,7 @@
     </div>
     <script>
         document.getElementById('signupForm').addEventListener('submit', async function (e) {
-            e.preventDefault(); // Forhindre standard formular submission
+            e.preventDefault();
         
             const formData = {
                 FName: document.getElementById('fname').value,
@@ -100,7 +100,7 @@
                 Weight: document.getElementById('weight').value,
                 Height: document.getElementById('height').value,
                 Username: document.getElementById('username').value,
-                Password: document.getElementById('password').value, // Husk at hash i backend!
+                Password: document.getElementById('password').value,
             };
         
             try {
@@ -114,8 +114,8 @@
         
                 if (response.ok) {
                     const result = await response.json();
-                    alert(result.message); // Succes besked
-                    window.location.href = 'login.html'; // Redirect til login side
+                    alert(result.message);
+                    window.location.href = 'login.html';
                 } else {
                     const errorData = await response.json();
                     alert(`Error: ${errorData.error}`);
@@ -127,7 +127,6 @@
         });
         </script>
         
-    <!-- Link til signup.js -->
     <script src="signup.js"></script>
 </body>
 </html>

@@ -152,34 +152,34 @@
                 // Save button event listener
                 saveButton.addEventListener('click', function () {
                     const updatedData = {
-                    fName: document.getElementById('name').value || "",
-                    gender: document.getElementById('gender').value || "",
+                    fName: document.getElementById('name').value.trim(),
+                    gender: document.getElementById('gender').value.trim(),
                     age: parseInt(document.getElementById('age').value) || null,
                     avgPulse: parseInt(document.getElementById('avgPulse').value) || null,
                     weight: parseFloat(document.getElementById('weight').value) || null,
                     height: parseFloat(document.getElementById('height').value) || null,
-                    username: document.getElementById('username').value || "",
-                    };
+                    username: document.getElementById('username').value.trim(),
+                    password: loggedInUser.password || "defaultPassword" // Provide a fallback value
+                };
+                    console.log('Updated Data:', updatedData);
+                    console.log('Password:', updatedData.password);
 
 
                     // Send updated data to the backend
                     fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(updatedData),
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(updatedData),
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Profile updated successfully:', data);
-                        alert('Profile updated successfully!');
-                    })
-                    .catch(error => {
-                        console.error('Error updating profile:', error);
-                        alert('Failed to update profile.');
-                    });
-                });
+                    .then(response => {
+                    console.log('Response Status:', response.status);
+                    return response.json();
+                })
+                .then(data => console.log('API Response:', data))
+                .catch(error => console.error('Fetch Error:', error));
+                }); 
             } else {
                 window.location.href = 'login.html';
             }

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercises</title>
-    <!-- Stylesheets -->
+    
     <link rel="stylesheet" href="./assets/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
-    <!-- Scripts -->
+    
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
@@ -16,17 +16,15 @@
     <style>
         #app {
     margin-top: 200px !important;
-    position: relative; /* Ensure it respects the margin */
+    position: relative;
 }
 
     </style>
-    <!-- Hero Section with Background Image -->
     <header class="uk-position-relative uk-light">
         <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
         <nav class="uk-navbar-container uk-navbar-transparent">
             <div class="uk-container">
                 <div uk-navbar>
-                    <!-- Left Navigation and Logo -->
                     <div class="uk-navbar-left">
                         <a href="index.html" class="uk-navbar-item uk-logo">
                             <img src="assets/WorkOutToDoLogo.png" alt="Workout of the Day Logo" width="50" height="auto">
@@ -48,7 +46,6 @@
                         </ul>
                     </div>
 
-                    <!-- Right Navigation -->
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
                             <li><a href="login.html">Login</a></li>
@@ -65,7 +62,6 @@
         <p class="uk-text-lead">Discover workouts tailored for every muscle group.</p>
     </div>
 
-    <!-- Search Section -->
     <div class="uk-section uk-section-small uk-background-muted">
         <div class="uk-container">
             <h2 class="uk-heading-line"><span>Find Your Exercise</span></h2>
@@ -80,7 +76,6 @@
         </div>
     </div>
 
-    <!-- Exercise Grid Section -->
     <div id="app" class="uk-container uk-margin-large-top" style="margin-top: -px;">
           <div class="uk-grid-small uk-child-width-1-3@m uk-flex-center" uk-grid>
                     </div>
@@ -90,19 +85,15 @@
     </div>
 
     
-    <!-- Include Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- Include the Vue.js script -->
     <script src="./exercises.js"></script>
 
     <script>
-        // Check for logged-in user
         const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     
         if (loggedInUser) {
             const navbarRight = document.querySelector('.uk-navbar-right');
     
-            // Update navbar with logout and admin dashboard button (if admin)
             let navItems = `
                 <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong>!</li>
                 <li><a href="#" id="logout">Logout</a></li>
@@ -119,11 +110,10 @@
     
             navbarRight.innerHTML = navItems;
     
-            // Add logout functionality
             document.getElementById('logout').addEventListener('click', () => {
-                localStorage.removeItem('loggedInUser'); // Clear session
+                localStorage.removeItem('loggedInUser');
                 alert('You have logged out.');
-                window.location.reload(); // Reload page
+                window.location.reload();
             });
         }
     </script>

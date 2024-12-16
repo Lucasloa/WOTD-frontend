@@ -29,12 +29,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const data = await response.json();
         console.log('User Data:', data);
 
-        // Store user info and admin status in localStorage
         localStorage.setItem('loggedInUser', JSON.stringify(data));
-
-        // Redirect to index.html after login
         
-        window.location.href = 'index.html'; // Redirect to index
+        window.location.href = 'index.html';
     } catch (error) {
         console.error('Fetch Error:', error);
         document.getElementById('loginError').hidden = false;

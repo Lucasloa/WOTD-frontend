@@ -24,7 +24,7 @@
     </div>
 
     <script>
-        const userId = JSON.parse(localStorage.getItem('loggedInUser')).id; // Assume the user is logged in and userId is saved
+        const userId = JSON.parse(localStorage.getItem('loggedInUser')).id;
 
         const calendarEl = document.getElementById('calendar');
         const addWorkoutBtn = document.getElementById('addWorkoutBtn');
@@ -33,7 +33,6 @@
 
         let calendar;
 
-        // Fetch user's scheduled workouts and render on calendar
         async function fetchScheduledWorkouts() {
             const response = await fetch(`https://wotdcontroller.azurewebsites.net/wotd/workout/schedule/${userId}`);
             const workouts = await response.json();
@@ -48,18 +47,16 @@
                 events: events,
                 dateClick: function(info) {
                     addWorkoutModal.style.display = 'block';
-                    document.getElementById('workoutDate').value = info.dateStr; // Set clicked date
+                    document.getElementById('workoutDate').value = info.dateStr;
                 }
             });
             calendar.render();
         }
 
-        // Show the add workout modal when clicking "Add Workout"
         addWorkoutBtn.addEventListener('click', () => {
             addWorkoutModal.style.display = 'block';
         });
 
-        // Handle new workout submission
         submitWorkoutBtn.addEventListener('click', async () => {
             const exercise = document.getElementById('exercise').value;
             const sets = document.getElementById('sets').value;
@@ -85,13 +82,13 @@
             if (response.ok) {
                 alert('Workout added!');
                 addWorkoutModal.style.display = 'none';
-                fetchScheduledWorkouts(); // Reload workouts
+                fetchScheduledWorkouts();
             } else {
                 alert('Failed to add workout.');
             }
         });
 
-        fetchScheduledWorkouts(); // Initial load of scheduled workouts
+        fetchScheduledWorkouts();
     </script>
 </body>
 </html>

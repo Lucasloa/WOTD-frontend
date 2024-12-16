@@ -11,23 +11,31 @@ const exerciseImages = {
     "Chest dip" : "./assets/chestDip.gif",
     "Decline Dumbbell Flyes" : "./assets/declineFlyes.gif",
     "Bodyweight Flyes" : "./assets/bodyweightFlyes.gif",
+    "Rickshaw Carry" : "./assets/rickshawCarry.gif",
+    "Single-Leg Press" : "./assets/singleLegPress.gif",
+    "Landmine twist" : "./assets/landmineTwist.gif",
+    "Weighted pull-up" : "./assets/weightedPullUp.gif",
+    "T-Bar Row with Handle" : "./assets/tBarRow.gif",
+    "Palms-down wrist curl over bench" : "./assets/palmsDownWristCurl.gif",
+    "Atlas Stones" : "./assets/atlasStones.gif",
+    "Dumbbell front raise to lateral raise" : "./assets/frontRaiseToLateralRaise.gif",
+    "Clean from Blocks" : "./assets/cleanFromBlocks.gif",
+    "Incline Hammer Curls" : "./assets/inclineHammerCurls.gif",
 
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const apiUrl = "https://api.api-ninjas.com/v1/exercises"; // Replace with your API endpoint
-    const apiKey = "+dIZRhCnq8grOuytY/aTJg==6YnDIrNneZLxp1bw"; // Replace with your actual API key
+    const apiUrl = "https://api.api-ninjas.com/v1/exercises";
+    const apiKey = "+dIZRhCnq8grOuytY/aTJg==6YnDIrNneZLxp1bw";
     const container = document.querySelector(".uk-grid-small");
 
     try {
-        // Fetch the exercises from the API
         const response = await axios.get(apiUrl, {
             headers: { "X-Api-Key": apiKey }
         });
         const exercises = response.data;
 
         exercises.forEach((exercise) => {
-            // Use the mapped image URL or a placeholder if no match
             const imageUrl = exerciseImages[exercise.name] || "https://via.placeholder.com/150";
             const card = `
                 <div>
@@ -54,7 +62,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-// Search functionality for exercises by muscle group
 document.querySelector("#search-button").addEventListener("click", async () => {
     const muscle = document.querySelector("#search-input").value.trim();
     const apiUrl = `https://api.api-ninjas.com/v1/exercises?muscle=${muscle}`;
@@ -65,7 +72,7 @@ document.querySelector("#search-button").addEventListener("click", async () => {
         });
         const exercises = response.data;
         const container = document.querySelector(".uk-grid-small");
-        container.innerHTML = ""; // Clear previous results
+        container.innerHTML = "";
 
         exercises.forEach((exercise) => {
             const imageUrl = exerciseImages[exercise.name] || "https://via.placeholder.com/150";
@@ -97,7 +104,7 @@ document.querySelector("#search-button").addEventListener("click", async () => {
 const app = Vue.createApp({
     data() {
         return {
-            exercises: [], // Holds fetched exercises
+            exercises: [],
         };
     },
     methods: {
@@ -116,15 +123,11 @@ const app = Vue.createApp({
             }
         },
         addToCalendar(exercise) {
-            // Save the exercise data to localStorage
             localStorage.setItem('selectedExercise', JSON.stringify(exercise));
-
-            // Redirect to calendar.html
             window.location.href = "calendar.html";
         },
     },
     mounted() {
-        // Automatically fetch exercises when page loads
         this.searchExercises();
     },
 });

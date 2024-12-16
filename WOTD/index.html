@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout of the Day</title>
-    <!-- Stylesheets -->
+    
     <link rel="stylesheet" href="./assets/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
-    <!-- Scripts -->
+    
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
@@ -58,7 +58,6 @@
             </div>
         </nav>
 
-        <!-- Workout and Quote of the Day Section -->
         <div id="wotd-section" style="margin-top: 30px;">
             <div>
                 <div id="wotd-title">Workout of the Day</div>
@@ -67,9 +66,7 @@
                         <img :src="workout.img" alt="Exercise Image">
                         <h3>{{ workout.name }}</h3>
                         <p>{{ workout.muscle }}</p>
-                        <!-- Start or Accept Button -->
                         <button id="start-btn" onclick="completeWorkout()">Start</button>
-                        <!-- Completed Message -->
                         <p id="completed-message">You have completed today's workout! Great job!</p>
                     </div>
                 </div>
@@ -107,16 +104,13 @@ if (loggedInUser) {
 
     navbarRight.innerHTML = navItems;
 
-    // Attach logout functionality
     document.getElementById('logout').addEventListener('click', () => {
         localStorage.removeItem('loggedInUser');
         window.location.reload();
     });
 }
-
    </script>
 
-    <!-- Link to Vue scripts -->
     <script src="./DailyWorkout.js"></script>
     <script src="./quote.js"></script>
     <script src="./login.js"></script>

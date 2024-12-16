@@ -1,7 +1,6 @@
 const app = Vue.createApp({
     data() {
         return {
-            // Workout data
             exercises: [
                 {
                     name: "Pushups",
@@ -24,16 +23,15 @@ const app = Vue.createApp({
                     img: "./assets/lowCableFly.gif"
                 }
             ],
-            workout: {}, // Holds the Workout of the Day
+            workout: {},
 
-            // Quote data
             quotes: [
                 { text: "The only bad workout is the one that didn’t happen.", author: "Anonymous" },
                 { text: "Push yourself, because no one else is going to do it for you.", author: "Anonymous" },
                 { text: "Success is the sum of small efforts, repeated day in and day out.", author: "Robert Collier" },
                 { text: "Your body can stand almost anything. It’s your mind that you have to convince.", author: "Anonymous" }
             ],
-            quote: {} // Holds the Quote of the Day
+            quote: {}
         };
     },
     created() {
@@ -42,30 +40,24 @@ const app = Vue.createApp({
     },
     methods: {
         setWorkoutOfTheDay() {
-            // Filter only chest exercises
             const chestExercises = this.exercises.filter(
                 (exercise) => exercise.muscle === "Chest"
             );
 
-            // Get today's index
             const today = new Date();
             const index = today.getDate() % chestExercises.length;
 
-            // Set the workout
             this.workout = chestExercises[index];
         },
         setQuoteOfTheDay() {
-            // Get today's index
             const today = new Date();
             const index = today.getDate() % this.quotes.length;
 
-            // Set the quote
             this.quote = this.quotes[index];
         }
     }
 });
 function completeWorkout() {
-    // Hide the "Start" button and show the completed message
     document.getElementById('start-btn').style.display = 'none';
     document.getElementById('completed-message').style.display = 'block';
 }

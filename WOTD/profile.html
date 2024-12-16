@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="./assets/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css">
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -53,7 +51,6 @@
 </head>
 
 <body>
-    <!-- Header Section -->
     <header class="uk-position-relative uk-light">
         <div class="uk-overlay uk-overlay-primary uk-position-cover"></div>
         <nav class="uk-navbar-container uk-navbar-transparent">
@@ -80,7 +77,6 @@
                         </ul>
                     </div>
 
-                    <!-- Dynamic Logged In User Section -->
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
                             <li><a href="login.html">Login</a></li>
@@ -92,99 +88,157 @@
         </nav>
     </header>
 
-    <!-- Main Profile Information Section -->
     <div class="uk-container">
         <div class="profile-container">
             <h2>Profile Information</h2>
-            <div id="profileDetails">
-                <!-- Profile details will be dynamically populated here -->
-            </div>
+            <div id="profileDetails"></div>
             <button id="saveButton" class="save-button">Save Changes</button>
         </div>
     </div>
 
-    <!-- Script to Manage Logged In User & Profile -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Fetch the logged-in user
             const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            const navbarRight = document.querySelector('.uk-navbar-right');
             const profileDetails = document.getElementById('profileDetails');
             const saveButton = document.getElementById('saveButton');
-
-            // If logged-in user exists, fetch their profile
-            if (loggedInUser && loggedInUser.id) {
-                const personId = loggedInUser.id;
-
-                fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data) {
-                            // Populate the profile section with the user's data
-                            profileDetails.innerHTML = `
-                                <label for="name">Name:</label>
-                                <input id="name" class="input-field" type="text" value="${data.fName}" />
-
-                                <label for="gender">Gender:</label>
-                                <input id="gender" class="input-field" type="text" value="${data.gender}" />
-
-                                <label for="age">Age:</label>
-                                <input id="age" class="input-field" type="number" value="${data.age}" />
-
-                                <label for="avgPulse">Average Pulse:</label>
-                                <input id="avgPulse" class="input-field" type="number" value="${data.avgPulse}" />
-
-                                <label for="weight">Weight:</label>
-                                <input id="weight" class="input-field" type="number" value="${data.weight}" />
-
-                                <label for="height">Height:</label>
-                                <input id="height" class="input-field" type="number" value="${data.height}" />
-
-                                <label for="username">Username:</label>
-                                <input id="username" class="input-field" type="text" value="${data.username}" />
-                            `;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching profile:', error);
-                        profileDetails.innerHTML = 'Failed to load profile.';
-                    });
-
-                // Save button event listener
-                saveButton.addEventListener('click', function () {
-                    const updatedData = {
-                    fName: document.getElementById('name').value.trim(),
-                    gender: document.getElementById('gender').value.trim(),
-                    age: parseInt(document.getElementById('age').value) || null,
-                    avgPulse: parseInt(document.getElementById('avgPulse').value) || null,
-                    weight: parseFloat(document.getElementById('weight').value) || null,
-                    height: parseFloat(document.getElementById('height').value) || null,
-                    username: document.getElementById('username').value.trim(),
-                    password: loggedInUser.password || "defaultPassword" // Provide a fallback value
-                };
-                    console.log('Updated Data:', updatedData);
-                    console.log('Password:', updatedData.password);
-
-
-                    // Send updated data to the backend
-                    fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(updatedData),
-                    })
-                    .then(response => {
-                    console.log('Response Status:', response.status);
-                    return response.json();
-                })
-                .then(data => console.log('API Response:', data))
-                .catch(error => console.error('Fetch Error:', error));
-                }); 
-            } else {
+    
+            if (!loggedInUser) {
                 window.location.href = 'login.html';
+                return;
             }
+    
+            let navItems = `
+                <li class="uk-navbar-item">Welcome, <strong>${loggedInUser.fName}</strong></li>
+                <li><a id="logout" href="#">Logout</a></li>
+                <li><a id="Calendar" href="calendar.html">Calendar</a></li>
+                <li><a id="Profile" href="profile.html">Profile</a></li>
+            `;
+            if (loggedInUser.isAdmin) {
+                navItems += `<li><a href="admin-dashboard.html">Admin Dashboard</a></li>`;
+            }
+            navbarRight.innerHTML = navItems;
+    
+            document.getElementById('logout').addEventListener('click', () => {
+                localStorage.removeItem('loggedInUser');
+                window.location.href = 'index.html';
+            });
+    
+            const personId = loggedInUser.id;
+    
+            fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data) return;
+    
+                    profileDetails.innerHTML = `
+                        <label for="name">Name:</label>
+                        <input id="name" class="input-field" type="text" value="${data.fName}" />
+    
+                        <label for="gender">Gender:</label>
+                        <input id="gender" class="input-field" type="text" value="${data.gender}" />
+    
+                        <label for="age">Age:</label>
+                        <input id="age" class="input-field" type="number" value="${data.age}" />
+    
+                        <label for="avgPulse">Average Pulse:</label>
+                        <input id="avgPulse" class="input-field" type="number" value="${data.avgPulse}" />
+    
+                        <label for="weight">Weight:</label>
+                        <input id="weight" class="input-field" type="number" value="${data.weight}" />
+    
+                        <label for="height">Height:</label>
+                        <input id="height" class="input-field" type="number" value="${data.height}" />
+    
+                        <label for="username">Username:</label>
+                        <input id="username" class="input-field" type="text" value="${data.username}" />
+    
+                        <button id="toggleMeasurements" class="uk-button uk-button-primary">Show Measurements and Chart</button>
+                        <div id="measurements" style="display: none;"></div>
+                        <div id="chartContainer" style="display: none; margin-top: 20px;">
+                            <canvas id="pulseChart" width="400" height="200"></canvas>
+                        </div>
+                    `;
+    
+                    const measurementsDiv = document.getElementById('measurements');
+                    const chartContainer = document.getElementById('chartContainer');
+                    const toggleButton = document.getElementById('toggleMeasurements');
+                    const pulseData = [];
+                    const dateLabels = [];
+    
+                    if (data.measurements && data.measurements.length > 0) {
+                        data.measurements.forEach(m => {
+                            measurementsDiv.innerHTML += `<p>Date: ${m.date}, Pulse: ${m.pulse}</p>`;
+                            pulseData.push(m.pulse);
+                            dateLabels.push(m.date);
+                        });
+                    } else {
+                        measurementsDiv.innerHTML = '<p>No measurements recorded.</p>';
+                    }
+    
+                    toggleButton.addEventListener('click', () => {
+                        const isHidden = measurementsDiv.style.display === 'none';
+                        measurementsDiv.style.display = isHidden ? 'block' : 'none';
+                        chartContainer.style.display = isHidden ? 'block' : 'none';
+                        toggleButton.textContent = isHidden ? 'Hide Measurements and Chart' : 'Show Measurements and Chart';
+                    });
+    
+                    const ctx = document.getElementById('pulseChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: dateLabels,
+                            datasets: [{
+                                label: 'Pulse Over Time',
+                                data: pulseData,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                tension: 0.3,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: true, position: 'top' }
+                            },
+                            scales: {
+                                x: { title: { display: true, text: 'Date' } },
+                                y: { title: { display: true, text: 'Pulse' }, beginAtZero: false }
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching profile:', error);
+                    profileDetails.innerHTML = 'Failed to load profile.';
+                });
+    
+            saveButton.addEventListener('click', () => {
+                const updatedData = {
+                    fName: document.getElementById('name').value,
+                    gender: document.getElementById('gender').value,
+                    age: document.getElementById('age').value,
+                    avgPulse: document.getElementById('avgPulse').value,
+                    weight: document.getElementById('weight').value,
+                    height: document.getElementById('height').value,
+                    username: document.getElementById('username').value,
+                };
+    
+                fetch(`https://wotdcontroller.azurewebsites.net/wotd/${personId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData),
+                })
+                .then(response => response.json())
+                .then(() => alert('Profile updated successfully!'))
+                .catch(error => {
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile.');
+                });
+            });
         });
     </script>
+    
 </body>
 
 </html>
